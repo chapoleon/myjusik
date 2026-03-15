@@ -2,8 +2,10 @@
   "name": "moneyfit",
   "private": true,
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "npx serve -l 3000",
+    "dev": "node preview.js",
+    "preview": "node preview.js",
     "start": "npx serve -l 3000"
   },
   "devDependencies": {
