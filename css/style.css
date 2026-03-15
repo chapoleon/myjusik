@@ -27,7 +27,7 @@
 html { font-size: 16px; -webkit-font-smoothing: antialiased; }
 
 body {
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Pretendard', 'Noto Sans SC', 'Noto Sans JP', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif;
     color: var(--text-1);
     background: var(--bg-2);
     line-height: 1.6;
@@ -61,7 +61,20 @@ body {
 
 .brand-name { font-size: 36px; font-weight: 800; margin-bottom: 4px; }
 .tagline { font-size: 16px; opacity: 0.9; font-weight: 500; }
-.logo-container { margin-bottom: 40px; }
+.logo-container { margin-bottom: 24px; }
+
+/* Language Selector */
+.lang-selector {
+    display: flex; justify-content: center; gap: 8px;
+    flex-wrap: wrap; margin-bottom: 28px;
+}
+.lang-btn {
+    background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3);
+    color: white; padding: 8px 14px; border-radius: 20px;
+    font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+}
+.lang-btn:hover { background: rgba(255,255,255,0.25); }
+.lang-btn.active { background: white; color: #667eea; border-color: white; }
 
 .value-prop { margin-bottom: 40px; }
 .headline { font-size: 22px; font-weight: 700; margin-bottom: 24px; line-height: 1.4; }
