@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="나와 맞는 투자를 3분 만에 찾아드립니다">
+    <meta name="description" content="10가지 질문으로 나와 맞는 투자를 찾아드립니다">
     <title>MoneyFit - 나와 맞는 투자 찾기</title>
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
@@ -12,7 +12,7 @@
 <body>
     <div id="app">
 
-        <!-- STEP 0: 시작 화면 -->
+        <!-- 시작 화면 -->
         <section id="splash" class="step active">
             <div class="container">
                 <div class="logo-container">
@@ -20,31 +20,27 @@
                     <h1 class="brand-name">MoneyFit</h1>
                     <p class="tagline">나와 맞는 투자를 찾아드려요</p>
                 </div>
-
                 <div class="value-prop">
-                    <h2 class="headline">간단한 질문 몇 개로<br>나에게 딱 맞는 투자법을!</h2>
-
+                    <h2 class="headline">10가지 질문으로<br>투자 성향을 정밀 분석!</h2>
                     <div class="stats-grid">
                         <div class="stat-card">
                             <div class="stat-number">3분</div>
                             <div class="stat-label">소요 시간</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-number">4가지</div>
-                            <div class="stat-label">투자 유형</div>
+                            <div class="stat-number">10문항</div>
+                            <div class="stat-label">전문 분석</div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-number">맞춤</div>
                             <div class="stat-label">종목 추천</div>
                         </div>
                     </div>
-
                     <div class="trust-badges">
                         <span class="badge"><i class="fas fa-shield-alt"></i> 무료</span>
                         <span class="badge"><i class="fas fa-check-circle"></i> 가입 불필요</span>
                     </div>
                 </div>
-
                 <button class="btn-primary btn-large" onclick="startAnalysis()">
                     <span>시작하기</span>
                     <i class="fas fa-arrow-right"></i>
@@ -52,102 +48,16 @@
             </div>
         </section>
 
-        <!-- Q1: 나이 -->
-        <section id="question1" class="step">
+        <!-- 질문 화면 (JS에서 동적 렌더링) -->
+        <section id="question" class="step">
             <div class="container">
-                <div class="progress-bar"><div class="progress-fill" style="width: 33.33%"></div></div>
+                <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
                 <div class="question-header">
-                    <span class="question-number">Q1/3</span>
-                    <h2 class="question-title">나이대가 어떻게 되세요?</h2>
-                    <p class="question-subtitle">연령대별 최적 투자 전략이 달라요</p>
+                    <span class="question-number" id="questionNumber"></span>
+                    <h2 class="question-title" id="questionTitle"></h2>
+                    <p class="question-subtitle" id="questionSubtitle"></p>
                 </div>
-                <div class="options-grid">
-                    <button class="option-card" onclick="selectOption('age', '20s', this)">
-                        <div class="option-icon">🌱</div>
-                        <div class="option-text">20대</div>
-                        <div class="option-desc">시간이 가장 큰 자산</div>
-                    </button>
-                    <button class="option-card" onclick="selectOption('age', '30s', this)">
-                        <div class="option-icon">🔥</div>
-                        <div class="option-text">30대</div>
-                        <div class="option-desc">본격 자산 증식기</div>
-                    </button>
-                    <button class="option-card" onclick="selectOption('age', '40s', this)">
-                        <div class="option-icon">⚖️</div>
-                        <div class="option-text">40대</div>
-                        <div class="option-desc">성장과 안정의 균형</div>
-                    </button>
-                    <button class="option-card" onclick="selectOption('age', '50s', this)">
-                        <div class="option-icon">🌳</div>
-                        <div class="option-text">50대 이상</div>
-                        <div class="option-desc">안정적 현금흐름</div>
-                    </button>
-                </div>
-                <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i> 이전</button>
-            </div>
-        </section>
-
-        <!-- Q2: 투자 가능 금액 -->
-        <section id="question2" class="step">
-            <div class="container">
-                <div class="progress-bar"><div class="progress-fill" style="width: 66.66%"></div></div>
-                <div class="question-header">
-                    <span class="question-number">Q2/3</span>
-                    <h2 class="question-title">투자 가능한 금액은?</h2>
-                    <p class="question-subtitle">작은 금액부터 시작해도 OK</p>
-                </div>
-                <div class="options-grid">
-                    <button class="option-card" onclick="selectOption('amount', 'low', this)">
-                        <div class="option-icon">☕</div>
-                        <div class="option-text">50만원 미만</div>
-                        <div class="option-desc">소액 분산투자</div>
-                    </button>
-                    <button class="option-card" onclick="selectOption('amount', 'medium', this)">
-                        <div class="option-icon">💼</div>
-                        <div class="option-text">50만~500만원</div>
-                        <div class="option-desc">포트폴리오 시작</div>
-                    </button>
-                    <button class="option-card" onclick="selectOption('amount', 'high', this)">
-                        <div class="option-icon">🏦</div>
-                        <div class="option-text">500만원 이상</div>
-                        <div class="option-desc">본격 자산 배분</div>
-                    </button>
-                </div>
-                <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i> 이전</button>
-            </div>
-        </section>
-
-        <!-- Q3: 투자 목표 -->
-        <section id="question3" class="step">
-            <div class="container">
-                <div class="progress-bar"><div class="progress-fill" style="width: 100%"></div></div>
-                <div class="question-header">
-                    <span class="question-number">Q3/3</span>
-                    <h2 class="question-title">투자 목표가 뭔가요?</h2>
-                    <p class="question-subtitle">목표에 따라 전략이 달라져요</p>
-                </div>
-                <div class="options-grid">
-                    <button class="option-card" onclick="selectOption('goal', 'growth', this)">
-                        <div class="option-icon">📈</div>
-                        <div class="option-text">자산 크게 불리기</div>
-                        <div class="option-desc">공격적 성장 추구</div>
-                    </button>
-                    <button class="option-card" onclick="selectOption('goal', 'stability', this)">
-                        <div class="option-icon">🏠</div>
-                        <div class="option-text">집 사기 / 노후 준비</div>
-                        <div class="option-desc">중장기 목표 달성</div>
-                    </button>
-                    <button class="option-card" onclick="selectOption('goal', 'income', this)">
-                        <div class="option-icon">💵</div>
-                        <div class="option-text">매달 용돈 만들기</div>
-                        <div class="option-desc">배당/현금흐름 중시</div>
-                    </button>
-                    <button class="option-card" onclick="selectOption('goal', 'explore', this)">
-                        <div class="option-icon">🤔</div>
-                        <div class="option-text">잘 모르겠어요</div>
-                        <div class="option-desc">기본 전략 추천</div>
-                    </button>
-                </div>
+                <div class="options-grid" id="optionsGrid"></div>
                 <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i> 이전</button>
             </div>
         </section>
@@ -155,12 +65,10 @@
         <!-- 결과 화면 -->
         <section id="result" class="step">
             <div class="container">
-
-                <!-- 투자 유형 -->
                 <div class="result-header">
                     <div class="celebration">🎉</div>
                     <h2 class="result-title">당신의 투자 유형</h2>
-                    <div class="result-badge" id="investorTypeBadge">공격적 성장 추구형</div>
+                    <div class="result-badge" id="investorTypeBadge"></div>
                 </div>
 
                 <div class="card investor-type-card">
@@ -168,7 +76,12 @@
                     <div class="type-characteristics" id="typeCharacteristics"></div>
                 </div>
 
-                <!-- 추천 포트폴리오 -->
+                <!-- 분석 점수 상세 -->
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-clipboard-check"></i> 성향 분석 상세</h3>
+                    <div id="scoreDetail"></div>
+                </div>
+
                 <div class="card">
                     <h3 class="card-title"><i class="fas fa-chart-pie"></i> 추천 포트폴리오</h3>
                     <div class="portfolio-visual">
@@ -177,13 +90,11 @@
                     <div class="portfolio-list" id="portfolioList"></div>
                 </div>
 
-                <!-- 추천 종목 -->
                 <div class="card">
                     <h3 class="card-title"><i class="fas fa-star"></i> 맞춤 추천 종목</h3>
                     <div class="stock-recommendations" id="stockRecommendations"></div>
                 </div>
 
-                <!-- AI 투자 컨설팅 보고서 -->
                 <div class="card report-card">
                     <h3 class="card-title"><i class="fas fa-file-alt"></i> AI 투자 컨설팅 보고서</h3>
                     <p class="report-desc">
@@ -205,16 +116,13 @@
                     </div>
                 </div>
 
-                <!-- 구독 안내 -->
                 <div class="card subscription-card highlight">
                     <h3 class="card-title"><i class="fas fa-bell"></i> 관심 종목 뉴스 구독</h3>
                     <p class="subscription-desc">
                         추천 종목이나 내가 고른 종목의 소식을<br>
                         <strong>카카오톡 / 이메일</strong>로 받아보세요!
                     </p>
-
                     <div class="subscribe-stock-list" id="subscribeStockList"></div>
-
                     <div class="subscribe-form">
                         <div class="subscribe-method">
                             <label class="method-option">
@@ -226,14 +134,12 @@
                                 <span><i class="fas fa-envelope"></i> 이메일</span>
                             </label>
                         </div>
-
                         <div class="form-group" id="kakaoInput">
                             <input type="tel" id="phone" placeholder="카카오톡 연결 휴대폰 번호" maxlength="13">
                         </div>
                         <div class="form-group hidden" id="emailInput">
                             <input type="email" id="email" placeholder="이메일 주소">
                         </div>
-
                         <div class="subscribe-frequency">
                             <label>받는 주기</label>
                             <div class="frequency-options">
@@ -242,7 +148,6 @@
                                 <button class="freq-btn" onclick="selectFrequency('realtime', this)">실시간</button>
                             </div>
                         </div>
-
                         <button class="btn-primary btn-large" onclick="subscribe()">
                             <span>무료로 구독 시작하기</span>
                             <i class="fas fa-arrow-right"></i>
@@ -251,7 +156,6 @@
                     </div>
                 </div>
 
-                <!-- 공유 -->
                 <div class="card share-card">
                     <h3 class="card-title"><i class="fas fa-share-alt"></i> 친구에게 공유하기</h3>
                     <div class="share-buttons">
@@ -264,7 +168,6 @@
                     </div>
                 </div>
 
-                <!-- 다시하기 -->
                 <button class="btn-restart" onclick="restartAnalysis()">
                     <i class="fas fa-redo"></i> 다시 분석하기
                 </button>
@@ -273,7 +176,6 @@
 
     </div>
 
-    <!-- Footer -->
     <footer id="footer">
         <div class="container">
             <div class="footer-bottom">
