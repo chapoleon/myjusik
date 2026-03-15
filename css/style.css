@@ -40,18 +40,20 @@ body {
 @media (min-width: 768px) { .container { max-width: 560px; } }
 
 /* Step 관리 */
-.step { display: none; min-height: 100vh; padding: 32px 0; animation: fadeIn 0.3s ease; }
-.step.active { display: block; }
+.step { display: none !important; min-height: 100vh; padding: 32px 0; animation: fadeIn 0.3s ease; }
+.step.active { display: block !important; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
 /* 스플래시 */
+#splash.active {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
 #splash {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .logo { font-size: 72px; margin-bottom: 12px; animation: bounce 2s infinite; }
