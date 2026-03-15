@@ -90,7 +90,27 @@ function renderFooter() {
   document.body.appendChild(footer);
 }
 
+// 애드센스 코드 삽입 (모든 페이지)
+function injectAdSense() {
+  // meta 태그
+  if (!document.querySelector('meta[name="google-adsense-account"]')) {
+    const meta = document.createElement('meta');
+    meta.name = 'google-adsense-account';
+    meta.content = 'ca-pub-5440243063519453';
+    document.head.appendChild(meta);
+  }
+  // 스크립트
+  if (!document.querySelector('script[src*="adsbygoogle"]')) {
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5440243063519453';
+    script.crossOrigin = 'anonymous';
+    document.head.appendChild(script);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  injectAdSense();
   renderNav();
   renderFooter();
 });
