@@ -94,10 +94,20 @@
         <!-- Result Screen -->
         <section id="result" class="step">
             <div class="container">
+                <!-- MBTI Style Share Card -->
+                <div class="mbti-card" id="mbtiCard"></div>
+
                 <div class="result-header">
-                    <div class="celebration">🎉</div>
                     <h2 class="result-title" data-i18n="result_celebration">Your Investor Type</h2>
                     <div class="result-badge" id="investorTypeBadge"></div>
+                </div>
+
+                <!-- SNS Share (prominent position) -->
+                <div class="sns-share-bar">
+                    <button class="sns-btn sns-twitter" onclick="shareTwitter()"><i class="fab fa-x-twitter"></i> <span data-i18n="share_twitter">Twitter / X</span></button>
+                    <button class="sns-btn sns-whatsapp" onclick="shareWhatsApp()"><i class="fab fa-whatsapp"></i></button>
+                    <button class="sns-btn sns-native" onclick="shareResult()"><i class="fas fa-share-nodes"></i> <span data-i18n="share_native">Share</span></button>
+                    <button class="sns-btn sns-copy" onclick="copyLink()"><i class="fas fa-link"></i></button>
                 </div>
 
                 <div class="card investor-type-card">
@@ -184,9 +194,44 @@
                     </div>
                 </div>
 
+                <!-- Premium Services -->
+                <div class="premium-section">
+                    <h3 class="premium-section-title" data-i18n="premium_section_title">Premium Services</h3>
+                    <p class="premium-section-desc" data-i18n="premium_section_desc">Take your investment to the next level</p>
+
+                    <div class="premium-card">
+                        <div class="premium-badge" data-i18n="premium_deep_report_badge">Best Seller</div>
+                        <div class="premium-icon">🤖</div>
+                        <h4 class="premium-name" data-i18n="premium_deep_report_title">Deep AI Report</h4>
+                        <p class="premium-desc" data-i18n="premium_deep_report_desc">30-page professional investment strategy<br>Custom portfolio + Action plan + Risk analysis</p>
+                        <div class="premium-price" data-i18n="premium_deep_report_price">$9.99</div>
+                        <button class="btn-premium" onclick="buyDeepReport()">
+                            <span data-i18n="premium_btn_buy">Get Now</span> <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="premium-card premium-pro">
+                        <div class="premium-badge pro" data-i18n="premium_rebalancing_badge">Pro</div>
+                        <div class="premium-icon">📊</div>
+                        <h4 class="premium-name" data-i18n="premium_rebalancing_title">Portfolio Rebalancing</h4>
+                        <p class="premium-desc" data-i18n="premium_rebalancing_desc">1:1 AI portfolio optimization<br>Monthly rebalancing alerts + Performance tracking</p>
+                        <div class="premium-price" data-i18n="premium_rebalancing_price">$19.00</div>
+                        <button class="btn-premium" onclick="buyRebalancing()">
+                            <span data-i18n="premium_btn_buy">Get Now</span> <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Share Card -->
                 <div class="card share-card">
                     <h3 class="card-title"><i class="fas fa-share-alt"></i> <span data-i18n="share_title">Share with Friends</span></h3>
                     <div class="share-buttons">
+                        <button class="btn-share twitter" onclick="shareTwitter()">
+                            <i class="fab fa-x-twitter"></i><span data-i18n="share_twitter">Twitter / X</span>
+                        </button>
+                        <button class="btn-share whatsapp" onclick="shareWhatsApp()">
+                            <i class="fab fa-whatsapp"></i><span>WhatsApp</span>
+                        </button>
                         <button class="btn-share kakao" id="kakaoShareBtn" onclick="shareKakao()">
                             <i class="fas fa-comment"></i><span data-i18n="share_kakao">KakaoTalk</span>
                         </button>

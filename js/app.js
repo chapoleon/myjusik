@@ -81,26 +81,36 @@ const AppState = {
 // ===== Investor Types (numeric data only, text from i18n) =====
 const INVESTOR_TYPE_DATA = {
     aggressive_growth: {
+        mbtiCode: 'FIRE', mbtiEmoji: '🔥',
+        gradient: 'linear-gradient(135deg, #FF6B6B, #ee5a24)',
         risk: 85, horizon: 90, cashflow: 30,
         riskColor: '#FF6B6B', horizonColor: '#4ecdc4', cashflowColor: '#95e1d3',
         scoreRange: [70, 100],
     },
     growth: {
+        mbtiCode: 'RISE', mbtiEmoji: '📈',
+        gradient: 'linear-gradient(135deg, #FFA94D, #F7971E)',
         risk: 70, horizon: 75, cashflow: 40,
         riskColor: '#FFA94D', horizonColor: '#4ecdc4', cashflowColor: '#95e1d3',
         scoreRange: [55, 69],
     },
     balanced: {
+        mbtiCode: 'WISE', mbtiEmoji: '⚖️',
+        gradient: 'linear-gradient(135deg, #667eea, #764ba2)',
         risk: 55, horizon: 65, cashflow: 55,
         riskColor: '#FFA94D', horizonColor: '#4ecdc4', cashflowColor: '#95e1d3',
         scoreRange: [40, 54],
     },
     conservative: {
+        mbtiCode: 'SAFE', mbtiEmoji: '🛡️',
+        gradient: 'linear-gradient(135deg, #00C896, #00b09b)',
         risk: 35, horizon: 50, cashflow: 75,
         riskColor: '#00C896', horizonColor: '#4ecdc4', cashflowColor: '#667eea',
         scoreRange: [25, 39],
     },
     very_conservative: {
+        mbtiCode: 'FORT', mbtiEmoji: '🏦',
+        gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)',
         risk: 15, horizon: 30, cashflow: 90,
         riskColor: '#00C896', horizonColor: '#95e1d3', cashflowColor: '#667eea',
         scoreRange: [0, 24],
@@ -212,7 +222,33 @@ function renderResult(type, pct) {
     const portfolio = getPortfolios(type);
     const stocks = getStockRecommendations(type);
 
-    document.getElementById('investorTypeBadge').textContent = `${info.emoji} ${info.name}`;
+    // MBTI-style card
+    document.getElementById('mbtiCard').innerHTML = `
+        <div class="mbti-card-inner" style="background:${data.gradient}">
+            <div class="mbti-logo">💰 MoneyFit</div>
+            <div class="mbti-emoji">${data.mbtiEmoji}</div>
+            <div class="mbti-code">${data.mbtiCode}</div>
+            <div class="mbti-name">${info.name}</div>
+            <div class="mbti-score">${t('score_total_label')} ${pct}${t('score_unit')}</div>
+            <div class="mbti-bars">
+                <div class="mbti-bar-item">
+                    <span>${t('char_risk')}</span>
+                    <div class="mbti-bar"><div class="mbti-bar-fill" style="width:${data.risk}%"></div></div>
+                </div>
+                <div class="mbti-bar-item">
+                    <span>${t('char_horizon')}</span>
+                    <div class="mbti-bar"><div class="mbti-bar-fill" style="width:${data.horizon}%"></div></div>
+                </div>
+                <div class="mbti-bar-item">
+                    <span>${t('char_cashflow')}</span>
+                    <div class="mbti-bar"><div class="mbti-bar-fill" style="width:${data.cashflow}%"></div></div>
+                </div>
+            </div>
+            <div class="mbti-url">moneyfit.andwhatbuy.com</div>
+        </div>
+    `;
+
+    document.getElementById('investorTypeBadge').textContent = `${data.mbtiEmoji} ${data.mbtiCode} - ${info.name}`;
     document.getElementById('typeDescription').textContent = info.description;
 
     // Characteristic bars
@@ -451,10 +487,49 @@ function markdownToHtml(md) {
 }
 
 // ===== Share =====
+function getShareText() {
+    const type = AppState.analysis.investorType;
+    if (!type) return '';
+    const data = INVESTOR_TYPE_DATA[type];
+    const info = t('investor_types.' + type);
+    return `${data.mbtiEmoji} ${t('mbti_share_prefix')} ${data.mbtiCode} - ${info.name}!\n${t('mbti_share_suffix')}\n`;
+}
+
+function shareTwitter() {
+    const text = encodeURIComponent(getShareText());
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+}
+
+function shareWhatsApp() {
+    const text = encodeURIComponent(getShareText() + '\n' + window.location.href);
+    window.open(`https://wa.me/?text=${text}`, '_blank');
+}
+
 function shareKakao() { showToast('KakaoTalk sharing available after deployment'); }
+
 function copyLink() {
-    if (navigator.clipboard) navigator.clipboard.writeText(window.location.href).then(() => showToast(t('link_copied')));
+    const text = getShareText() + window.location.href;
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => showToast(t('link_copied')));
     else showToast(t('link_copy_fail'));
+}
+
+function shareResult() {
+    const text = getShareText();
+    if (navigator.share) {
+        navigator.share({ title: 'MoneyFit', text: text, url: window.location.href });
+    } else {
+        copyLink();
+    }
+}
+
+// ===== Premium =====
+function buyDeepReport() {
+    showToast(t('premium_coming_soon'));
+}
+
+function buyRebalancing() {
+    showToast(t('premium_coming_soon'));
 }
 
 // ===== Restart =====

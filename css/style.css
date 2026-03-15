@@ -378,8 +378,82 @@ button { cursor: pointer; border: none; outline: none; font-family: inherit; tra
     .footer-grid { grid-template-columns: 1fr; }
 }
 
+/* ===== MBTI Share Card ===== */
+.mbti-card { margin-bottom: 24px; }
+.mbti-card-inner {
+    border-radius: 20px; padding: 32px 24px; text-align: center; color: white;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2); position: relative; overflow: hidden;
+}
+.mbti-logo { font-size: 14px; font-weight: 700; opacity: 0.8; margin-bottom: 16px; }
+.mbti-emoji { font-size: 56px; margin-bottom: 8px; }
+.mbti-code { font-size: 48px; font-weight: 900; letter-spacing: 8px; margin-bottom: 4px; text-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.mbti-name { font-size: 16px; font-weight: 600; opacity: 0.95; margin-bottom: 20px; }
+.mbti-score { font-size: 14px; font-weight: 600; opacity: 0.85; margin-bottom: 20px; }
+.mbti-bars { display: flex; flex-direction: column; gap: 8px; max-width: 260px; margin: 0 auto 20px; }
+.mbti-bar-item { display: flex; align-items: center; gap: 8px; }
+.mbti-bar-item span { width: 80px; font-size: 11px; font-weight: 600; text-align: right; opacity: 0.9; }
+.mbti-bar { flex: 1; height: 6px; background: rgba(255,255,255,0.25); border-radius: 3px; overflow: hidden; }
+.mbti-bar-fill { height: 100%; background: white; border-radius: 3px; transition: width 0.8s ease; }
+.mbti-url { font-size: 11px; opacity: 0.6; }
+
+/* ===== SNS Share Bar ===== */
+.sns-share-bar { display: flex; gap: 8px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
+.sns-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 10px 16px; border-radius: 24px; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; border: none;
+}
+.sns-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.sns-twitter { background: #000; color: white; }
+.sns-whatsapp { background: #25D366; color: white; }
+.sns-native { background: var(--primary); color: white; }
+.sns-copy { background: var(--bg-3); color: var(--text-1); }
+
+/* ===== Premium Section ===== */
+.premium-section { margin-bottom: 16px; text-align: center; }
+.premium-section-title { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+.premium-section-desc { font-size: 14px; color: var(--text-2); margin-bottom: 20px; }
+
+.premium-card {
+    background: var(--bg-1); border-radius: var(--radius); padding: 28px 24px;
+    margin-bottom: 12px; box-shadow: var(--shadow-md);
+    border: 2px solid var(--border); position: relative; text-align: center;
+    transition: all 0.2s;
+}
+.premium-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.premium-pro { border-color: var(--primary); }
+
+.premium-badge {
+    position: absolute; top: -1px; right: 20px;
+    background: var(--danger); color: white; font-size: 11px; font-weight: 700;
+    padding: 4px 12px; border-radius: 0 0 8px 8px;
+}
+.premium-badge.pro { background: var(--primary); }
+
+.premium-icon { font-size: 40px; margin-bottom: 8px; }
+.premium-name { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+.premium-desc { font-size: 13px; color: var(--text-2); line-height: 1.6; margin-bottom: 16px; }
+.premium-price { font-size: 28px; font-weight: 900; color: var(--primary); margin-bottom: 16px; }
+
+.btn-premium {
+    width: 100%; padding: 14px 24px; border-radius: var(--radius);
+    background: linear-gradient(135deg, #667eea, #764ba2); color: white;
+    font-size: 15px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    box-shadow: var(--shadow-sm); transition: all 0.2s;
+}
+.btn-premium:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+/* Share buttons 4-grid */
+.share-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btn-share.twitter { background: #000; color: white; }
+.btn-share.whatsapp { background: #25D366; color: white; }
+
 @media (max-width: 380px) {
     .stats-grid { grid-template-columns: 1fr; }
     .brand-name { font-size: 30px; }
     .question-title { font-size: 22px; }
+    .mbti-code { font-size: 36px; letter-spacing: 6px; }
+    .sns-share-bar { gap: 6px; }
+    .sns-btn { padding: 8px 12px; font-size: 12px; }
 }
