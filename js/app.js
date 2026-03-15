@@ -195,6 +195,39 @@ function selectAnswer(key, value, score, el) {
     }, 350);
 }
 
+// ===== MBTI 4-axis calculation =====
+function calcMbtiAxes(answers) {
+    // Axis 1: S(Safe) vs R(Risk) — from loss_reaction + preference
+    const riskScore = ((answers.loss_reaction?.score || 5) + (answers.preference?.score || 5)) / 2;
+    const axis1 = riskScore >= 5 ? 'R' : 'S';
+    const axis1pct = Math.round(riskScore * 10);
+
+    // Axis 2: T(short-Term) vs L(Long) — from horizon
+    const horizonScore = answers.horizon?.score || 5;
+    const axis2 = horizonScore >= 5 ? 'L' : 'T';
+    const axis2pct = Math.round(horizonScore * 10);
+
+    // Axis 3: D(Dividend/income) vs G(Growth) — from goal + amount
+    const goalScore = answers.goal?.score || 5;
+    const axis3 = goalScore >= 5 ? 'G' : 'D';
+    const axis3pct = Math.round(goalScore * 10);
+
+    // Axis 4: N(Novice) vs E(Expert) — from knowledge + experience
+    const expScore = ((answers.knowledge?.score || 5) + (answers.experience?.score || 5)) / 2;
+    const axis4 = expScore >= 5 ? 'E' : 'N';
+    const axis4pct = Math.round(expScore * 10);
+
+    return {
+        code: axis1 + axis2 + axis3 + axis4,
+        axes: [
+            { letter: axis1, pct: axis1pct, leftKey: 'mbti_axis_safe', rightKey: 'mbti_axis_risk' },
+            { letter: axis2, pct: axis2pct, leftKey: 'mbti_axis_short', rightKey: 'mbti_axis_long' },
+            { letter: axis3, pct: axis3pct, leftKey: 'mbti_axis_dividend', rightKey: 'mbti_axis_growth' },
+            { letter: axis4, pct: axis4pct, leftKey: 'mbti_axis_novice', rightKey: 'mbti_axis_expert' },
+        ]
+    };
+}
+
 // ===== Score-based Analysis =====
 function showResult() {
     const totalScore = Object.values(AppState.answers).reduce((sum, a) => sum + a.score, 0);
@@ -211,6 +244,7 @@ function showResult() {
     AppState.analysis.investorType = type;
     AppState.analysis.portfolio = getPortfolios(type);
     AppState.analysis.totalScore = pct;
+    AppState.analysis.mbti = calcMbtiAxes(AppState.answers);
 
     renderResult(type, pct);
     showStep('result');
@@ -222,33 +256,34 @@ function renderResult(type, pct) {
     const portfolio = getPortfolios(type);
     const stocks = getStockRecommendations(type);
 
-    // MBTI-style card
+    // MBTI-style card with 4 axes
+    const mbti = AppState.analysis.mbti;
+    const codeLetters = mbti.code.split('').map(l => `<span class="mbti-letter">${l}</span>`).join('<span class="mbti-dot">·</span>');
+
     document.getElementById('mbtiCard').innerHTML = `
         <div class="mbti-card-inner" style="background:${data.gradient}">
-            <div class="mbti-logo">💰 MoneyFit</div>
+            <div class="mbti-label">${t('mbti_label')}</div>
             <div class="mbti-emoji">${data.mbtiEmoji}</div>
-            <div class="mbti-code">${data.mbtiCode}</div>
-            <div class="mbti-name">${info.name}</div>
-            <div class="mbti-score">${t('score_total_label')} ${pct}${t('score_unit')}</div>
-            <div class="mbti-bars">
-                <div class="mbti-bar-item">
-                    <span>${t('char_risk')}</span>
-                    <div class="mbti-bar"><div class="mbti-bar-fill" style="width:${data.risk}%"></div></div>
-                </div>
-                <div class="mbti-bar-item">
-                    <span>${t('char_horizon')}</span>
-                    <div class="mbti-bar"><div class="mbti-bar-fill" style="width:${data.horizon}%"></div></div>
-                </div>
-                <div class="mbti-bar-item">
-                    <span>${t('char_cashflow')}</span>
-                    <div class="mbti-bar"><div class="mbti-bar-fill" style="width:${data.cashflow}%"></div></div>
-                </div>
+            <div class="mbti-code-wrap">${codeLetters}</div>
+            <div class="mbti-type-name">${data.mbtiCode} - ${info.name}</div>
+            <div class="mbti-axes">
+                ${mbti.axes.map(ax => `
+                    <div class="mbti-axis-row">
+                        <span class="mbti-axis-left ${ax.pct < 50 ? 'active' : ''}">${t(ax.leftKey)}</span>
+                        <div class="mbti-axis-bar">
+                            <div class="mbti-axis-fill-left" style="width:${100 - ax.pct}%"></div>
+                            <div class="mbti-axis-center"></div>
+                            <div class="mbti-axis-fill-right" style="width:${ax.pct}%"></div>
+                        </div>
+                        <span class="mbti-axis-right ${ax.pct >= 50 ? 'active' : ''}">${t(ax.rightKey)}</span>
+                    </div>
+                `).join('')}
             </div>
             <div class="mbti-url">moneyfit.andwhatbuy.com</div>
         </div>
     `;
 
-    document.getElementById('investorTypeBadge').textContent = `${data.mbtiEmoji} ${data.mbtiCode} - ${info.name}`;
+    document.getElementById('investorTypeBadge').textContent = `${data.mbtiEmoji} ${mbti.code} — ${info.name}`;
     document.getElementById('typeDescription').textContent = info.description;
 
     // Characteristic bars
@@ -492,7 +527,8 @@ function getShareText() {
     if (!type) return '';
     const data = INVESTOR_TYPE_DATA[type];
     const info = t('investor_types.' + type);
-    return `${data.mbtiEmoji} ${t('mbti_share_prefix')} ${data.mbtiCode} - ${info.name}!\n${t('mbti_share_suffix')}\n`;
+    const mbtiCode = AppState.analysis.mbti?.code || data.mbtiCode;
+    return `${data.mbtiEmoji} ${t('mbti_share_prefix')} [${mbtiCode}] ${info.name}!\n${t('mbti_share_suffix')}\n`;
 }
 
 function shareTwitter() {
