@@ -16,21 +16,24 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
 
-// .env 파일 간단 로딩
-try {
-  const envPath = path.join(__dirname, '.env');
-  if (fs.existsSync(envPath)) {
-    const envContent = fs.readFileSync(envPath, 'utf-8');
-    for (const line of envContent.split('\n')) {
-      const trimmed = line.trim();
-      if (trimmed && !trimmed.startsWith('#')) {
-        const [key, ...rest] = trimmed.split('=');
-        process.env[key.trim()] = rest.join('=').trim().replace(/^["']|["']$/g, '');
-      }
+// .dev.vars / .env 파일 로딩 (.dev.vars 우선)
+function loadEnvFile(filePath) {
+  if (!fs.existsSync(filePath)) return false;
+  const content = fs.readFileSync(filePath, 'utf-8');
+  for (const line of content.split('\n')) {
+    const trimmed = line.trim();
+    if (trimmed && !trimmed.startsWith('#')) {
+      const [key, ...rest] = trimmed.split('=');
+      process.env[key.trim()] = rest.join('=').trim().replace(/^["']|["']$/g, '');
     }
-    console.log('  .env 파일 로드 완료');
   }
-} catch (e) { /* ignore */ }
+  return true;
+}
+
+const devVarsLoaded = loadEnvFile(path.join(__dirname, '.dev.vars'));
+const envLoaded = !devVarsLoaded && loadEnvFile(path.join(__dirname, '.env'));
+if (devVarsLoaded) console.log('  .dev.vars 파일 로드 완료');
+else if (envLoaded) console.log('  .env 파일 로드 완료');
 
 // MIME 타입
 const MIME = {
