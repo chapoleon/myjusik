@@ -310,6 +310,98 @@ function subscribe() {
     showToast(`${AppState.selectedStocks.length}개 종목 뉴스 구독 완료!`);
 }
 
+// ===== AI 보고서 생성 =====
+async function generateReport() {
+    const btn = document.getElementById('btnReport');
+    const loading = document.getElementById('reportLoading');
+    const content = document.getElementById('reportContent');
+    const error = document.getElementById('reportError');
+
+    // UI 상태 전환
+    btn.classList.add('hidden');
+    error.classList.add('hidden');
+    content.classList.add('hidden');
+    loading.classList.remove('hidden');
+
+    try {
+        const type = AppState.analysis.investorType;
+        const stocks = STOCK_RECOMMENDATIONS[type];
+
+        const res = await fetch('/api/report', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                age: AppState.userData.age,
+                amount: AppState.userData.amount,
+                goal: AppState.userData.goal,
+                investorType: INVESTOR_TYPES[type].name,
+                portfolio: PORTFOLIOS[type],
+                stocks: stocks
+            })
+        });
+
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+
+        // 마크다운 → HTML 변환 (간단 변환기)
+        content.innerHTML = markdownToHtml(data.report);
+        loading.classList.add('hidden');
+        content.classList.remove('hidden');
+        showToast('보고서가 생성되었습니다!');
+
+    } catch (err) {
+        console.error('Report error:', err);
+        loading.classList.add('hidden');
+        error.classList.remove('hidden');
+        btn.classList.remove('hidden');
+    }
+}
+
+// 간단한 마크다운 → HTML 변환
+function markdownToHtml(md) {
+    return md
+        // 코드블록
+        .replace(/```[\s\S]*?```/g, m => `<pre><code>${m.slice(3, -3).trim()}</code></pre>`)
+        // 헤더
+        .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+        .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+        .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+        // 볼드, 이탤릭
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        // 인라인 코드
+        .replace(/`(.+?)`/g, '<code>$1</code>')
+        // 수평선
+        .replace(/^---$/gm, '<hr>')
+        // 인용문
+        .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
+        // 리스트
+        .replace(/^- (.+)$/gm, '<li>$1</li>')
+        .replace(/^(\d+)\. (.+)$/gm, '<li>$2</li>')
+        .replace(/(<li>.*<\/li>\n?)+/g, m => {
+            return '<ul>' + m + '</ul>';
+        })
+        // 줄바꿈
+        .replace(/\n\n/g, '</p><p>')
+        .replace(/\n/g, '<br>')
+        // 감싸기
+        .replace(/^/, '<p>')
+        .replace(/$/, '</p>')
+        // 빈 태그 정리
+        .replace(/<p><\/p>/g, '')
+        .replace(/<p>(<h[123]>)/g, '$1')
+        .replace(/(<\/h[123]>)<\/p>/g, '$1')
+        .replace(/<p>(<ul>)/g, '$1')
+        .replace(/(<\/ul>)<\/p>/g, '$1')
+        .replace(/<p>(<hr>)<\/p>/g, '$1')
+        .replace(/<p>(<blockquote>)/g, '$1')
+        .replace(/(<\/blockquote>)<\/p>/g, '$1')
+        .replace(/<p>(<pre>)/g, '$1')
+        .replace(/(<\/pre>)<\/p>/g, '$1');
+}
+
 // ===== 공유 =====
 function shareKakao() {
     const type = INVESTOR_TYPES[AppState.analysis.investorType];

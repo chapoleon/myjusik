@@ -240,6 +240,58 @@ button { cursor: pointer; border: none; outline: none; font-family: inherit; tra
 }
 @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
 
+/* AI 보고서 */
+.report-card { text-align: center; }
+.report-desc { font-size: 15px; color: var(--text-2); line-height: 1.6; margin-bottom: 20px; }
+
+.btn-report {
+    width: 100%; padding: 16px 24px; border-radius: var(--radius);
+    background: linear-gradient(135deg, #667eea, #764ba2); color: white;
+    font-size: 16px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    box-shadow: var(--shadow-md); transition: all 0.2s;
+}
+.btn-report:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.btn-report:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+.report-loading {
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+    padding: 32px 0; color: var(--text-2); font-size: 14px;
+}
+.report-spinner {
+    width: 36px; height: 36px;
+    border: 3px solid var(--bg-3); border-top-color: var(--primary);
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.report-content {
+    text-align: left; margin-top: 20px;
+    padding: 24px; background: var(--bg-2); border-radius: var(--radius);
+    font-size: 14px; line-height: 1.8; color: var(--text-1);
+    max-height: 600px; overflow-y: auto;
+}
+.report-content h1 { font-size: 20px; font-weight: 800; margin: 20px 0 10px; color: var(--text-1); }
+.report-content h2 { font-size: 17px; font-weight: 700; margin: 18px 0 8px; color: var(--primary); }
+.report-content h3 { font-size: 15px; font-weight: 700; margin: 14px 0 6px; color: var(--text-1); }
+.report-content p { margin-bottom: 10px; }
+.report-content ul, .report-content ol { margin: 8px 0 12px 20px; }
+.report-content li { margin-bottom: 4px; }
+.report-content strong { color: var(--primary); }
+.report-content blockquote {
+    border-left: 3px solid var(--primary); padding: 8px 14px; margin: 10px 0;
+    background: rgba(0,102,255,0.04); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-size: 13px; color: var(--text-2);
+}
+.report-content code { background: var(--bg-3); padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+.report-content hr { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+
+.report-error { text-align: center; padding: 20px; color: var(--danger); }
+.btn-retry {
+    margin-top: 10px; padding: 10px 24px; border-radius: var(--radius-sm);
+    background: var(--bg-3); color: var(--text-1); font-size: 14px; font-weight: 600;
+}
+
 @media (max-width: 380px) {
     .stats-grid { grid-template-columns: 1fr; }
     .brand-name { font-size: 30px; }

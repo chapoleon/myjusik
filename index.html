@@ -183,6 +183,28 @@
                     <div class="stock-recommendations" id="stockRecommendations"></div>
                 </div>
 
+                <!-- AI 투자 컨설팅 보고서 -->
+                <div class="card report-card">
+                    <h3 class="card-title"><i class="fas fa-file-alt"></i> AI 투자 컨설팅 보고서</h3>
+                    <p class="report-desc">
+                        AI가 당신의 투자 성향을 심층 분석하고<br>
+                        <strong>맞춤 투자 전략 보고서</strong>를 작성해드립니다.
+                    </p>
+                    <button class="btn-report" id="btnReport" onclick="generateReport()">
+                        <i class="fas fa-robot"></i>
+                        <span>무료 보고서 받기</span>
+                    </button>
+                    <div class="report-loading hidden" id="reportLoading">
+                        <div class="report-spinner"></div>
+                        <span>AI가 보고서를 작성하고 있어요... (약 10초)</span>
+                    </div>
+                    <div class="report-content hidden" id="reportContent"></div>
+                    <div class="report-error hidden" id="reportError">
+                        <p>보고서 생성에 실패했습니다. 다시 시도해주세요.</p>
+                        <button class="btn-retry" onclick="generateReport()">다시 시도</button>
+                    </div>
+                </div>
+
                 <!-- 구독 안내 -->
                 <div class="card subscription-card highlight">
                     <h3 class="card-title"><i class="fas fa-bell"></i> 관심 종목 뉴스 구독</h3>
