@@ -1,13 +1,719 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>myapp</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="나와 맞는 투자를 3분 만에 찾아드립니다. 심리학 기반 개인화 포트폴리오 추천">
+    <meta name="keywords" content="투자 추천, 주식 투자, ETF, 포트폴리오, 투자 성향, 재테크">
+    <meta property="og:title" content="나와 맞는 주식은? - 3분 투자 성향 분석">
+    <meta property="og:description" content="30대 직장인 TOP 10%가 선택한 투자, 당신에게도 맞을까요?">
+    <meta property="og:type" content="website">
+    <title>나와 맞는 주식은? - 3분 투자 성향 분석</title>
+
+    <!-- Pretendard 폰트 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 전체 컨테이너 -->
+    <div id="app">
+
+        <!-- STEP 0: 스플래시 & 가치 선언 -->
+        <section id="splash" class="step active">
+            <div class="container">
+                <div class="logo-container">
+                    <div class="logo">💰</div>
+                    <h1 class="brand-name">MoneyFit</h1>
+                    <p class="tagline">나와 맞는 투자를 찾아드려요</p>
+                </div>
+
+                <div class="value-prop">
+                    <h2 class="headline">"30대 직장인 TOP 10%가<br>선택한 ETF, 당신은?"</h2>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">3분</div>
+                            <div class="stat-label">소요 시간</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">12.4%</div>
+                            <div class="stat-label">평균 연수익률</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">15,000+</div>
+                            <div class="stat-label">분석 완료</div>
+                        </div>
+                    </div>
+
+                    <div class="trust-badges">
+                        <span class="badge"><i class="fas fa-shield-alt"></i> 무료 분석</span>
+                        <span class="badge"><i class="fas fa-lock"></i> 개인정보 보호</span>
+                        <span class="badge"><i class="fas fa-check-circle"></i> 가입 불필요</span>
+                    </div>
+                </div>
+
+                <button class="btn-primary btn-large" onclick="startAnalysis()">
+                    <span>3분 만에 알아보기</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+
+                <p class="disclaimer">가입 없이 먼저 체험하세요</p>
+            </div>
+        </section>
+
+        <!-- STEP 1: 핵심 3문항 - Q1 나이 -->
+        <section id="question1" class="step">
+            <div class="container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 33.33%"></div>
+                </div>
+
+                <div class="question-header">
+                    <span class="question-number">Q1/3</span>
+                    <h2 class="question-title">나이대가 어떻게 되세요?</h2>
+                    <p class="question-subtitle">연령대별 최적 투자 전략이 다릅니다</p>
+                </div>
+
+                <div class="options-grid">
+                    <button class="option-card" onclick="selectOption('age', '20s', this)">
+                        <div class="option-icon">🌱</div>
+                        <div class="option-text">20대</div>
+                        <div class="option-desc">시간이 가장 큰 자산</div>
+                    </button>
+                    <button class="option-card" onclick="selectOption('age', '30s', this)">
+                        <div class="option-icon">🔥</div>
+                        <div class="option-text">30대</div>
+                        <div class="option-desc">본격 자산 증식기</div>
+                    </button>
+                    <button class="option-card" onclick="selectOption('age', '40s', this)">
+                        <div class="option-icon">⚖️</div>
+                        <div class="option-text">40대</div>
+                        <div class="option-desc">성장과 안정의 균형</div>
+                    </button>
+                    <button class="option-card" onclick="selectOption('age', '50s', this)">
+                        <div class="option-icon">🌳</div>
+                        <div class="option-text">50대 이상</div>
+                        <div class="option-desc">안정적 현금흐름</div>
+                    </button>
+                </div>
+
+                <button class="btn-back" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i> 이전
+                </button>
+            </div>
+        </section>
+
+        <!-- STEP 1: 핵심 3문항 - Q2 투자 가능 금액 -->
+        <section id="question2" class="step">
+            <div class="container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 66.66%"></div>
+                </div>
+
+                <div class="question-header">
+                    <span class="question-number">Q2/3</span>
+                    <h2 class="question-title">지금 투자 가능한 금액은?</h2>
+                    <p class="question-subtitle">작은 금액부터 시작해도 괜찮습니다</p>
+                </div>
+
+                <div class="options-grid">
+                    <button class="option-card" onclick="selectOption('amount', 'low', this)">
+                        <div class="option-icon">☕</div>
+                        <div class="option-text">50만원 미만</div>
+                        <div class="option-desc">소액 분산투자 전략</div>
+                    </button>
+                    <button class="option-card" onclick="selectOption('amount', 'medium', this)">
+                        <div class="option-icon">💼</div>
+                        <div class="option-text">50만~500만원</div>
+                        <div class="option-desc">포트폴리오 시작 단계</div>
+                    </button>
+                    <button class="option-card" onclick="selectOption('amount', 'high', this)">
+                        <div class="option-icon">🏦</div>
+                        <div class="option-text">500만원 이상</div>
+                        <div class="option-desc">본격 자산 배분</div>
+                    </button>
+                </div>
+
+                <button class="btn-back" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i> 이전
+                </button>
+            </div>
+        </section>
+
+        <!-- STEP 1: 핵심 3문항 - Q3 투자 목표 -->
+        <section id="question3" class="step">
+            <div class="container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 100%"></div>
+                </div>
+
+                <div class="question-header">
+                    <span class="question-number">Q3/3</span>
+                    <h2 class="question-title">투자 목표가 뭔가요?</h2>
+                    <p class="question-subtitle">목표에 따라 전략이 달라집니다</p>
+                </div>
+
+                <div class="options-grid">
+                    <button class="option-card" onclick="selectOption('goal', 'growth', this)">
+                        <div class="option-icon">📈</div>
+                        <div class="option-text">자산 크게 불리기</div>
+                        <div class="option-desc">공격적 성장 추구</div>
+                    </button>
+                    <button class="option-card" onclick="selectOption('goal', 'stability', this)">
+                        <div class="option-icon">🏠</div>
+                        <div class="option-text">집 사기/노후 준비</div>
+                        <div class="option-desc">중장기 목표 달성</div>
+                    </button>
+                    <button class="option-card" onclick="selectOption('goal', 'income', this)">
+                        <div class="option-icon">💵</div>
+                        <div class="option-text">매달 용돈 만들기</div>
+                        <div class="option-desc">현금흐름 중시</div>
+                    </button>
+                    <button class="option-card" onclick="selectOption('goal', 'explore', this)">
+                        <div class="option-icon">🤔</div>
+                        <div class="option-text">잘 모르겠어요</div>
+                        <div class="option-desc">기본 전략 추천</div>
+                    </button>
+                </div>
+
+                <button class="btn-back" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i> 이전
+                </button>
+            </div>
+        </section>
+
+        <!-- STEP 2: 분석 중 로딩 -->
+        <section id="analyzing" class="step">
+            <div class="container text-center">
+                <div class="loading-animation">
+                    <div class="spinner"></div>
+                    <div class="loading-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <h2 class="analyzing-title">AI가 당신의 투자 성향을<br>분석하고 있습니다</h2>
+
+                <div class="analyzing-steps">
+                    <div class="analyzing-step">
+                        <i class="fas fa-check-circle"></i>
+                        <span>생애주기 분석 완료</span>
+                    </div>
+                    <div class="analyzing-step">
+                        <i class="fas fa-check-circle"></i>
+                        <span>위험 성향 측정 완료</span>
+                    </div>
+                    <div class="analyzing-step active">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>최적 포트폴리오 구성 중...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STEP 3: 즉시 결과 미리보기 (비가입) -->
+        <section id="preview" class="step">
+            <div class="container">
+                <div class="result-header">
+                    <div class="celebration">🎉</div>
+                    <h2 class="result-title"><span id="userName">당신</span>의 투자 유형 분석 완료!</h2>
+                    <div class="result-badge" id="userType">성장 추구형 30대</div>
+                </div>
+
+                <div class="card portfolio-preview">
+                    <h3 class="card-title">
+                        <i class="fas fa-chart-pie"></i>
+                        추천 포트폴리오 미리보기
+                    </h3>
+
+                    <div class="portfolio-chart" id="portfolioChart">
+                    </div>
+
+                    <div class="portfolio-items" id="portfolioItems">
+                    </div>
+                </div>
+
+                <div class="card performance-card">
+                    <h3 class="card-title">
+                        <i class="fas fa-trophy"></i>
+                        이 포트폴리오의 예상 성과
+                    </h3>
+                    <div class="performance-stats">
+                        <div class="performance-item">
+                            <div class="performance-label">연평균 수익률</div>
+                            <div class="performance-value" id="expectedReturn">+12.4%</div>
+                        </div>
+                        <div class="performance-item">
+                            <div class="performance-label">10년 후 예상 자산</div>
+                            <div class="performance-value" id="expectedAsset">3,210만원</div>
+                        </div>
+                    </div>
+                    <p class="performance-note">
+                        <i class="fas fa-info-circle"></i>
+                        과거 10년 시뮬레이션 기준 (실제 수익률과 다를 수 있습니다)
+                    </p>
+                </div>
+
+                <div class="blur-overlay">
+                    <div class="unlock-message">
+                        <i class="fas fa-lock"></i>
+                        <h3>전체 분석 결과를 보려면</h3>
+                        <p>맞춤 종목 5개 추천 + 매일 투자 브리핑까지</p>
+                    </div>
+                </div>
+
+                <button class="btn-primary btn-large" onclick="showSignup()">
+                    <span>무료로 전체 결과 보기</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+
+                <p class="signup-benefit">
+                    ✨ 7일 무료 체험 + 첫 투자 가이드북 증정
+                </p>
+            </div>
+        </section>
+
+        <!-- STEP 4: 가입 유도 (간소화) -->
+        <section id="signup" class="step">
+            <div class="container">
+                <div class="signup-header">
+                    <h2 class="signup-title">전체 분석 결과 보기</h2>
+                    <p class="signup-subtitle">딱 30초만 더 투자하세요!</p>
+                </div>
+
+                <div class="signup-benefits">
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>개인 맞춤 종목 5개 추천</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>주식 vs 부동산 비교 분석</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>매일 아침 투자 브리핑 (7일 무료)</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>투자 심리 코칭 메시지</span>
+                    </div>
+                </div>
+
+                <div class="signup-form">
+                    <div class="social-login-buttons">
+                        <button class="btn-social kakao" onclick="socialLogin('kakao')">
+                            <i class="fas fa-comment"></i>
+                            <span>카카오로 1초 가입</span>
+                        </button>
+                        <button class="btn-social naver" onclick="socialLogin('naver')">
+                            <span class="naver-n">N</span>
+                            <span>네이버로 1초 가입</span>
+                        </button>
+                        <button class="btn-social google" onclick="socialLogin('google')">
+                            <i class="fab fa-google"></i>
+                            <span>Google로 1초 가입</span>
+                        </button>
+                    </div>
+
+                    <div class="divider">
+                        <span>또는 이메일로</span>
+                    </div>
+
+                    <form id="emailSignupForm" onsubmit="emailSignup(event)">
+                        <div class="form-group">
+                            <input type="email" id="email" placeholder="이메일 주소" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="name" placeholder="이름 (선택)" maxlength="20">
+                        </div>
+                        <div class="form-group checkbox">
+                            <input type="checkbox" id="terms" required>
+                            <label for="terms">
+                                <a href="#" onclick="showTerms(); return false;">서비스 이용약관</a> 및
+                                <a href="#" onclick="showPrivacy(); return false;">개인정보처리방침</a>에 동의합니다
+                            </label>
+                        </div>
+                        <button type="submit" class="btn-primary btn-large">
+                            <span>무료로 시작하기</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="signup-footer">
+                    <p>이미 계정이 있나요? <a href="#" onclick="showLogin(); return false;">로그인</a></p>
+                    <button class="btn-text" onclick="skipSignup()">나중에 하기 →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- STEP 5: 최종 결과 & 구독 안내 (가입 후) -->
+        <section id="result" class="step">
+            <div class="container">
+                <div class="result-complete-header">
+                    <div class="celebration-big">🏆</div>
+                    <h2 class="result-complete-title">
+                        <span id="resultUserName">OOO</span>님의<br>투자 프로파일 완성!
+                    </h2>
+                    <div class="accuracy-badge">
+                        <span>정확도:</span>
+                        <div class="accuracy-bar">
+                            <div class="accuracy-fill" style="width: 82%"></div>
+                        </div>
+                        <span class="accuracy-number">82%</span>
+                    </div>
+                </div>
+
+                <!-- 투자 유형 상세 -->
+                <div class="card investor-type-card">
+                    <h3 class="card-title">
+                        <i class="fas fa-user-circle"></i>
+                        나의 투자 유형
+                    </h3>
+                    <div class="investor-type-content">
+                        <div class="type-badge-large" id="investorTypeBadge">공격적 성장 추구형</div>
+                        <p class="type-description" id="typeDescription">
+                            위험을 감수하고 높은 수익을 추구하는 타입입니다.
+                            변동성이 큰 성장주에 투자하며, 장기적 관점에서 자산을 증식시킵니다.
+                        </p>
+
+                        <div class="type-characteristics">
+                            <div class="characteristic-item">
+                                <span class="char-label">위험 감수도</span>
+                                <div class="char-bar">
+                                    <div class="char-fill" style="width: 85%; background: #ff6b6b;"></div>
+                                </div>
+                                <span class="char-value">높음</span>
+                            </div>
+                            <div class="characteristic-item">
+                                <span class="char-label">투자 기간</span>
+                                <div class="char-bar">
+                                    <div class="char-fill" style="width: 90%; background: #4ecdc4;"></div>
+                                </div>
+                                <span class="char-value">장기</span>
+                            </div>
+                            <div class="characteristic-item">
+                                <span class="char-label">현금흐름 선호</span>
+                                <div class="char-bar">
+                                    <div class="char-fill" style="width: 30%; background: #95e1d3;"></div>
+                                </div>
+                                <span class="char-value">낮음</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 맞춤 포트폴리오 상세 -->
+                <div class="card detailed-portfolio-card">
+                    <h3 class="card-title">
+                        <i class="fas fa-chart-line"></i>
+                        맞춤 포트폴리오 (상세)
+                    </h3>
+
+                    <div class="portfolio-visual">
+                        <canvas id="portfolioPieChart"></canvas>
+                    </div>
+
+                    <div class="portfolio-list" id="detailedPortfolioList">
+                    </div>
+
+                    <div class="portfolio-summary">
+                        <div class="summary-item">
+                            <span class="summary-label">예상 연수익률</span>
+                            <span class="summary-value positive">+12.4%</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">포트폴리오 위험도</span>
+                            <span class="summary-value">중상 (7/10)</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">추천 리밸런싱</span>
+                            <span class="summary-value">분기 1회</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 주식 vs 부동산 분석 -->
+                <div class="card comparison-card">
+                    <h3 class="card-title">
+                        <i class="fas fa-balance-scale"></i>
+                        주식 vs 부동산, 당신에게 맞는 건?
+                    </h3>
+
+                    <div class="comparison-result">
+                        <div class="comparison-winner">
+                            <div class="winner-badge">추천</div>
+                            <div class="comparison-item stock-item">
+                                <div class="comparison-icon">📈</div>
+                                <h4>주식 중심 투자</h4>
+                                <div class="match-score">매칭도: 85%</div>
+                                <ul class="comparison-reasons">
+                                    <li><i class="fas fa-check"></i> 유동성이 높아 필요시 즉시 현금화</li>
+                                    <li><i class="fas fa-check"></i> 소액으로 분산투자 가능</li>
+                                    <li><i class="fas fa-check"></i> 관리 시간과 노력 최소화</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="comparison-alternative">
+                            <div class="comparison-item realestate-item">
+                                <div class="comparison-icon">🏠</div>
+                                <h4>부동산 투자</h4>
+                                <div class="match-score">매칭도: 45%</div>
+                                <p class="alternative-note">
+                                    현재 투자 가능 금액과 유동성 선호도를 고려할 때,
+                                    직접 부동산보다는 <strong>리츠(REITs)</strong>를 통한
+                                    간접 투자가 더 적합합니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 구독 서비스 소개 -->
+                <div class="card subscription-card highlight">
+                    <div class="subscription-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-bell"></i>
+                            매일 아침 당신만의 투자 브리핑
+                        </h3>
+                        <span class="trial-badge">7일 무료 체험</span>
+                    </div>
+
+                    <div class="subscription-preview">
+                        <div class="briefing-sample">
+                            <div class="briefing-header">
+                                <span class="briefing-time">☀️ 오늘 오전 7:00</span>
+                                <span class="briefing-tag">테슬라 브리핑</span>
+                            </div>
+                            <div class="briefing-content">
+                                <h4>📊 테슬라 $287.3 (+3.2%) 📈</h4>
+                                <p class="briefing-summary">
+                                    머스크 인도 공장 착공 발표 → 아시아 시장 기대감 ↑<br>
+                                    보통 이런 발표 후 1주일 평균 +4.8% 흐름
+                                </p>
+                                <div class="briefing-coaching">
+                                    <strong>🧠 심리 코칭:</strong>
+                                    "급등할 때 팔고 싶은 충동이 드시나요?
+                                    장기 보유자 상위 10%는 이런 날 오히려 추가 매수했습니다."
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subscription-plans">
+                        <div class="plan-card free">
+                            <div class="plan-header">
+                                <h4 class="plan-name">FREE</h4>
+                                <div class="plan-price">무료</div>
+                            </div>
+                            <ul class="plan-features">
+                                <li><i class="fas fa-check"></i> 투자 성향 분석</li>
+                                <li><i class="fas fa-check"></i> 기본 포트폴리오 추천</li>
+                                <li class="disabled"><i class="fas fa-times"></i> 모닝 브리핑</li>
+                                <li class="disabled"><i class="fas fa-times"></i> 실시간 알림</li>
+                            </ul>
+                            <button class="btn-plan current">현재 플랜</button>
+                        </div>
+
+                        <div class="plan-card basic popular">
+                            <div class="popular-badge">인기</div>
+                            <div class="plan-header">
+                                <h4 class="plan-name">BASIC</h4>
+                                <div class="plan-price">
+                                    <span class="price-amount">9,900</span>
+                                    <span class="price-unit">원/월</span>
+                                </div>
+                            </div>
+                            <ul class="plan-features">
+                                <li><i class="fas fa-check"></i> 모닝 브리핑 1종목</li>
+                                <li><i class="fas fa-check"></i> 주간 성적표</li>
+                                <li><i class="fas fa-check"></i> 월 1회 리밸런싱 제안</li>
+                                <li><i class="fas fa-check"></i> 부동산 뉴스 추가</li>
+                            </ul>
+                            <button class="btn-plan recommended" onclick="selectPlan('basic')">
+                                7일 무료 체험 시작
+                            </button>
+                        </div>
+
+                        <div class="plan-card pro">
+                            <div class="plan-header">
+                                <h4 class="plan-name">PRO</h4>
+                                <div class="plan-price">
+                                    <span class="price-amount">29,900</span>
+                                    <span class="price-unit">원/월</span>
+                                </div>
+                            </div>
+                            <ul class="plan-features">
+                                <li><i class="fas fa-check"></i> 브리핑 최대 5종목</li>
+                                <li><i class="fas fa-check"></i> 실시간 시장 알림</li>
+                                <li><i class="fas fa-check"></i> AI 질문 무제한</li>
+                                <li><i class="fas fa-check"></i> 월 1회 전략 상담</li>
+                            </ul>
+                            <button class="btn-plan" onclick="selectPlan('pro')">
+                                PRO로 시작하기
+                            </button>
+                        </div>
+                    </div>
+
+                    <p class="subscription-note">
+                        💳 7일 무료 체험 후 자동 결제 (언제든 해지 가능)
+                    </p>
+                </div>
+
+                <!-- 소셜 공유 -->
+                <div class="card share-card">
+                    <h3 class="card-title">
+                        <i class="fas fa-share-alt"></i>
+                        내 투자 유형 자랑하기
+                    </h3>
+                    <p class="share-description">
+                        친구와 함께하면 더 재미있어요!<br>
+                        친구 초대 시 <strong>프리미엄 1개월 무료</strong> 🎁
+                    </p>
+
+                    <div class="share-buttons">
+                        <button class="btn-share kakao" onclick="shareKakao()">
+                            <i class="fas fa-comment"></i>
+                            <span>카카오톡</span>
+                        </button>
+                        <button class="btn-share twitter" onclick="shareTwitter()">
+                            <i class="fab fa-twitter"></i>
+                            <span>트위터</span>
+                        </button>
+                        <button class="btn-share facebook" onclick="shareFacebook()">
+                            <i class="fab fa-facebook"></i>
+                            <span>페이스북</span>
+                        </button>
+                        <button class="btn-share link" onclick="copyLink()">
+                            <i class="fas fa-link"></i>
+                            <span>링크 복사</span>
+                        </button>
+                    </div>
+
+                    <div class="referral-code">
+                        <label>내 초대 코드</label>
+                        <div class="code-box">
+                            <code id="referralCode">MF2024XYZ</code>
+                            <button class="btn-copy" onclick="copyReferralCode()">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 다음 단계 안내 -->
+                <div class="next-steps">
+                    <h3 class="next-steps-title">다음으로 해야 할 일</h3>
+                    <div class="steps-list">
+                        <div class="step-item">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>증권 계좌 개설하기</h4>
+                                <p>추천 증권사에서 비대면 계좌 개설 (5분 소요)</p>
+                                <button class="btn-secondary" onclick="openBrokerage()">
+                                    계좌 개설 시작 →
+                                </button>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>소액으로 시작하기</h4>
+                                <p>커피 한 잔 값(5,000원)으로 첫 투자 경험</p>
+                                <button class="btn-secondary" onclick="startSmallInvestment()">
+                                    1,000원 챌린지 →
+                                </button>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>모닝 브리핑 구독하기</h4>
+                                <p>매일 아침 7시, 맞춤 투자 정보 받기</p>
+                                <button class="btn-secondary" onclick="subscribeBriefing()">
+                                    7일 무료 체험 →
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">💰 MoneyFit</div>
+                    <p class="footer-tagline">나와 맞는 투자를 찾아드려요</p>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>서비스</h4>
+                        <ul>
+                            <li><a href="#" onclick="restartAnalysis(); return false;">투자 성향 분석</a></li>
+                            <li><a href="#">포트폴리오 추천</a></li>
+                            <li><a href="#">모닝 브리핑</a></li>
+                            <li><a href="#">투자 가이드</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>고객지원</h4>
+                        <ul>
+                            <li><a href="#">자주 묻는 질문</a></li>
+                            <li><a href="#">이용 가이드</a></li>
+                            <li><a href="#">문의하기</a></li>
+                            <li><a href="#">공지사항</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>약관</h4>
+                        <ul>
+                            <li><a href="#" onclick="showTerms(); return false;">서비스 이용약관</a></li>
+                            <li><a href="#" onclick="showPrivacy(); return false;">개인정보처리방침</a></li>
+                            <li><a href="#">투자 유의사항</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-disclaimer">
+                    <p>
+                        <strong>투자 유의사항:</strong> 본 서비스는 투자 권유가 아닌 정보 제공 목적입니다.
+                        모든 투자의 최종 결정은 본인의 책임이며, 투자 결과에 대한 법적 책임은 투자자 본인에게 있습니다.
+                        과거의 수익률이 미래의 수익률을 보장하지 않습니다.
+                    </p>
+                </div>
+                <div class="footer-copyright">
+                    <p>&copy; 2024 MoneyFit. All rights reserved.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chart.js for 포트폴리오 차트 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- 메인 JavaScript -->
+    <script src="js/app.js"></script>
+    <script src="js/portfolio.js"></script>
+</body>
 </html>
