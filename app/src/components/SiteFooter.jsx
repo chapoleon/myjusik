@@ -17,13 +17,13 @@ export default function SiteFooter() {
             <h4>법적 고지</h4>
             <ul>
               <li>
-                <Link to="/pages/privacy">개인정보처리방침</Link>
+                <Link to="/privacy">개인정보처리방침</Link>
               </li>
               <li>
-                <Link to="/pages/terms">이용약관</Link>
+                <Link to="/terms">이용약관</Link>
               </li>
               <li>
-                <Link to="/pages/contact">문의하기</Link>
+                <Link to="/contact">문의하기</Link>
               </li>
             </ul>
           </div>
@@ -32,7 +32,7 @@ export default function SiteFooter() {
             <h4>서비스</h4>
             <ul>
               <li>
-                <Link to="/pages/about">About</Link>
+                <Link to="/about">About</Link>
               </li>
               <li>
                 <Link to="/articles/investment-guide">투자 가이드</Link>

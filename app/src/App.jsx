@@ -57,6 +57,30 @@ function AppRoutes() {
         }
       />
       <Route
+        path="/about"
+        element={
+          <Shell footer>
+            <AboutPage />
+          </Shell>
+        }
+      />
+      <Route
+        path="/privacy"
+        element={
+          <Shell footer>
+            <PrivacyPage />
+          </Shell>
+        }
+      />
+      <Route
+        path="/terms"
+        element={
+          <Shell footer>
+            <TermsPage />
+          </Shell>
+        }
+      />
+      <Route
         path="/pages/about"
         element={
           <Shell footer>
@@ -77,6 +101,14 @@ function AppRoutes() {
         element={
           <Shell footer>
             <TermsPage />
+          </Shell>
+        }
+      />
+      <Route
+        path="/contact"
+        element={
+          <Shell footer>
+            <ContactPage />
           </Shell>
         }
       />

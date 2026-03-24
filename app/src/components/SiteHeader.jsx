@@ -28,7 +28,7 @@ export default function SiteHeader() {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/pages/about" className={linkClass} onClick={() => setOpen(false)}>
+            <NavLink to="/about" className={linkClass} onClick={() => setOpen(false)}>
               소개
             </NavLink>
           </li>
@@ -38,17 +38,17 @@ export default function SiteHeader() {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/pages/contact" className={linkClass} onClick={() => setOpen(false)}>
+            <NavLink to="/contact" className={linkClass} onClick={() => setOpen(false)}>
               문의
             </NavLink>
           </li>
           <li>
-            <NavLink to="/pages/privacy" className={linkClass} onClick={() => setOpen(false)}>
+            <NavLink to="/privacy" className={linkClass} onClick={() => setOpen(false)}>
               개인정보처리방침
             </NavLink>
           </li>
           <li>
-            <NavLink to="/pages/terms" className={linkClass} onClick={() => setOpen(false)}>
+            <NavLink to="/terms" className={linkClass} onClick={() => setOpen(false)}>
               이용약관
             </NavLink>
           </li>
