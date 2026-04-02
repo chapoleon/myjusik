@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 
 const linkClass = ({ isActive }) =>
@@ -7,10 +7,6 @@ const linkClass = ({ isActive }) =>
 export default function SiteHeader() {
   const [open, setOpen] = useState(false)
   const [theme, setTheme] = useState('light')
-
-  const isDark = theme === 'dark'
-  const themeIcon = useMemo(() => (isDark ? 'fa-sun' : 'fa-moon'), [isDark])
-  const themeLabel = useMemo(() => (isDark ? 'LIGHT' : 'DARK'), [isDark])
 
   useEffect(() => {
     const stored = window.localStorage.getItem('mf_theme')
@@ -31,25 +27,6 @@ export default function SiteHeader() {
         <Link to="/" className="nav-logo" onClick={() => setOpen(false)}>
           💰 MoneyFit
         </Link>
-        <div className="nav-actions">
-          <button
-            type="button"
-            className="nav-theme-toggle"
-            aria-label="테마 전환"
-            onClick={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
-          >
-            <i className={`fas ${themeIcon}`} aria-hidden="true" />
-            <span className="nav-theme-text">{themeLabel}</span>
-          </button>
-          <button
-            type="button"
-            className="nav-toggle"
-            aria-label="메뉴"
-            onClick={() => setOpen((v) => !v)}
-          >
-            <i className="fas fa-bars" />
-          </button>
-        </div>
         <ul className={`nav-links${open ? ' open' : ''}`}>
           <li>
             <NavLink to="/quiz" className={linkClass} onClick={() => setOpen(false)}>
@@ -82,6 +59,25 @@ export default function SiteHeader() {
             </NavLink>
           </li>
         </ul>
+        <div className="nav-actions">
+          <button
+            type="button"
+            className="nav-theme-toggle"
+            aria-label={theme === 'dark' ? '라이트 모드로 전환' : '다크 모드로 전환'}
+            title={theme === 'dark' ? '라이트 모드' : '다크 모드'}
+            onClick={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
+          >
+            <i className={`fas ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`} aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="nav-toggle"
+            aria-label="메뉴"
+            onClick={() => setOpen((v) => !v)}
+          >
+            <i className="fas fa-bars" />
+          </button>
+        </div>
       </div>
     </header>
   )
