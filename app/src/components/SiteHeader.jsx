@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 
 const linkClass = ({ isActive }) =>
@@ -6,6 +6,24 @@ const linkClass = ({ isActive }) =>
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false)
+  const [theme, setTheme] = useState('light')
+
+  const isDark = theme === 'dark'
+  const themeIcon = useMemo(() => (isDark ? 'fa-sun' : 'fa-moon'), [isDark])
+  const themeLabel = useMemo(() => (isDark ? 'LIGHT' : 'DARK'), [isDark])
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem('mf_theme')
+    const preferDark = window.matchMedia?.('(prefers-color-scheme: dark)')?.matches
+    const initial = stored || (preferDark ? 'dark' : 'light')
+    setTheme(initial)
+    document.documentElement.setAttribute('data-theme', initial)
+  }, [])
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    window.localStorage.setItem('mf_theme', theme)
+  }, [theme])
 
   return (
     <header id="globalNav">
@@ -13,14 +31,25 @@ export default function SiteHeader() {
         <Link to="/" className="nav-logo" onClick={() => setOpen(false)}>
           💰 MoneyFit
         </Link>
-        <button
-          type="button"
-          className="nav-toggle"
-          aria-label="메뉴"
-          onClick={() => setOpen((v) => !v)}
-        >
-          <i className="fas fa-bars" />
-        </button>
+        <div className="nav-actions">
+          <button
+            type="button"
+            className="nav-theme-toggle"
+            aria-label="테마 전환"
+            onClick={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
+          >
+            <i className={`fas ${themeIcon}`} aria-hidden="true" />
+            <span className="nav-theme-text">{themeLabel}</span>
+          </button>
+          <button
+            type="button"
+            className="nav-toggle"
+            aria-label="메뉴"
+            onClick={() => setOpen((v) => !v)}
+          >
+            <i className="fas fa-bars" />
+          </button>
+        </div>
         <ul className={`nav-links${open ? ' open' : ''}`}>
           <li>
             <NavLink to="/quiz" className={linkClass} onClick={() => setOpen(false)}>
