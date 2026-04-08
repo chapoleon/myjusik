@@ -375,10 +375,12 @@ function updateSubscriptionUI() {
     const kakaoMethod = document.getElementById('kakaoMethodWrap');
     const kakaoInput = document.getElementById('kakaoInput');
     const kakaoShare = document.getElementById('kakaoShareBtn');
+    const kakaoShareTop = document.getElementById('kakaoShareBtnTop');
 
     if (kakaoMethod) kakaoMethod.classList.toggle('hidden', !isKo);
     if (kakaoInput) kakaoInput.classList.toggle('hidden', !isKo);
     if (kakaoShare) kakaoShare.classList.toggle('hidden', !isKo);
+    if (kakaoShareTop) kakaoShareTop.classList.toggle('hidden', !isKo);
 
     // Set email checked for non-Korean
     const emailCheck = document.getElementById('methodEmail');
@@ -580,7 +582,80 @@ function shareTwitter() {
     window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
 }
 
-function shareKakao() { showToast('KakaoTalk sharing available after deployment'); }
+function initKakaoIfNeeded() {
+    try {
+        if (!window.Kakao) return false;
+        const key = window.MONEYFIT_KAKAO_JAVASCRIPT_KEY || '';
+        if (!key) return false;
+        if (!window.Kakao.isInitialized || !window.Kakao.init) return false;
+        if (!window.Kakao.isInitialized()) window.Kakao.init(key);
+        return window.Kakao.isInitialized();
+    } catch (e) {
+        console.error(e);
+        return false;
+    }
+}
+
+function shareKakao() {
+    const ok = initKakaoIfNeeded();
+    if (!ok) {
+        showToast('카카오 공유 설정이 필요합니다. (링크 복사로 대체)');
+        copyLink();
+        return;
+    }
+
+    const type = AppState.analysis.investorType;
+    const data = type ? INVESTOR_TYPE_DATA[type] : null;
+    const info = type ? t('investor_types.' + type) : null;
+    const mbtiCode = AppState.analysis.mbti?.code || data?.mbtiCode || 'MF';
+
+    const title = info ? `나는 ${data?.mbtiEmoji || '💰'} ${mbtiCode} — ${info.name}!` : 'MoneyFit 투자 성향 테스트';
+    const description = info ? info.description : t('meta_description');
+    const url = window.location.origin + '/';
+    const imageUrl = window.location.origin + '/favicon.svg';
+
+    // Prefer Kakao.Share (new), fallback to Kakao.Link (legacy)
+    try {
+        if (window.Kakao.Share?.sendDefault) {
+            window.Kakao.Share.sendDefault({
+                objectType: 'feed',
+                content: {
+                    title,
+                    description,
+                    imageUrl,
+                    link: { mobileWebUrl: url, webUrl: url },
+                },
+                buttons: [
+                    { title: '내 결과 보기', link: { mobileWebUrl: url, webUrl: url } },
+                    { title: '나도 테스트', link: { mobileWebUrl: url, webUrl: url } },
+                ],
+            });
+            return;
+        }
+        if (window.Kakao.Link?.sendDefault) {
+            window.Kakao.Link.sendDefault({
+                objectType: 'feed',
+                content: {
+                    title,
+                    description,
+                    imageUrl,
+                    link: { mobileWebUrl: url, webUrl: url },
+                },
+                buttons: [
+                    { title: '내 결과 보기', link: { mobileWebUrl: url, webUrl: url } },
+                    { title: '나도 테스트', link: { mobileWebUrl: url, webUrl: url } },
+                ],
+            });
+            return;
+        }
+        showToast('카카오 공유를 지원하지 않는 환경입니다.');
+        copyLink();
+    } catch (e) {
+        console.error(e);
+        showToast('카카오 공유에 실패했습니다.');
+        copyLink();
+    }
+}
 
 async function shareInstagramStory() {
     // Instagram web does not provide a direct "story share" API.
