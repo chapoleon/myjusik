@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>결제 실패</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body style="background:#F8F9FA">
+  <main class="page-content" style="padding:40px 0">
+    <div class="container">
+      <div class="card">
+        <h2 style="margin-bottom:10px">결제가 실패했습니다</h2>
+        <p id="msg" style="color:#4E5968"></p>
+        <button class="btn-primary btn-large" style="margin-top:16px" onclick="location.replace('/index.html#result')">
+          결과로 돌아가기
+        </button>
+      </div>
+    </div>
+  </main>
+  <script>
+    const qs = new URLSearchParams(location.search);
+    const code = qs.get('code');
+    const message = qs.get('message');
+    document.getElementById('msg').textContent = [code, message].filter(Boolean).join(' - ') || '다시 시도해 주세요.';
+  </script>
+</body>
+</html>
+

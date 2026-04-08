@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>결제 처리 중...</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body style="background:#F8F9FA">
+  <main class="page-content" style="padding:40px 0">
+    <div class="container">
+      <div class="card">
+        <h2 style="margin-bottom:10px">결제 처리 중입니다</h2>
+        <p style="color:#4E5968">잠시만 기다려 주세요. 자동으로 결과 페이지로 이동합니다.</p>
+        <p id="status" style="margin-top:14px;color:#8B95A1;font-size:13px"></p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const qs = new URLSearchParams(location.search);
+      const authKey = qs.get('authKey');
+      const customerKey = qs.get('customerKey');
+      const plan = qs.get('plan') || localStorage.getItem('moneyfit_selected_plan') || 'pro_monthly';
+
+      const statusEl = document.getElementById('status');
+      if (!authKey || !customerKey) {
+        statusEl.textContent = '필수 파라미터가 누락되었습니다.';
+        location.replace('/index.html#result');
+        return;
+      }
+
+      statusEl.textContent = '빌링키 발급 및 첫 결제 승인 중...';
+
+      fetch('/api/toss/billing/issue', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ authKey, customerKey, plan })
+      })
+        .then(async (r) => {
+          const data = await r.json().catch(() => ({}));
+          if (!r.ok || !data.ok) {
+            throw new Error(data.error || '결제 처리에 실패했습니다.');
+          }
+          try {
+            localStorage.setItem('moneyfit_subscription', JSON.stringify({
+              plan: data.plan,
+              customerKey: data.customerKey,
+              billingKey: data.billingKey,
+              lastPayment: data.payment,
+              updatedAt: new Date().toISOString()
+            }));
+          } catch (_) {}
+          statusEl.textContent = '완료되었습니다. 이동 중...';
+          location.replace('/index.html#result');
+        })
+        .catch((e) => {
+          statusEl.textContent = (e && e.message) ? e.message : '실패했습니다.';
+          setTimeout(() => location.replace('/index.html#result'), 1200);
+        });
+    })();
+  </script>
+</body>
+</html>
+

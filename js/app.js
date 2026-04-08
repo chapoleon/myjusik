@@ -246,6 +246,17 @@ function showResult() {
     AppState.analysis.totalScore = pct;
     AppState.analysis.mbti = calcMbtiAxes(AppState.answers);
 
+    // Persist last result so payment redirects can return to /#result reliably.
+    try {
+        localStorage.setItem('moneyfit_last_result', JSON.stringify({
+            lang: getLang(),
+            answers: AppState.answers,
+            investorType: type,
+            totalScore: pct,
+            savedAt: new Date().toISOString(),
+        }));
+    } catch (_) {}
+
     renderResult(type, pct);
     showStep('result');
 }
@@ -409,6 +420,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Pricing launch counter (if present on this page)
     setLaunchRemaining(getLaunchRemaining());
+
+    // Restore result step if user is coming back from payments
+    if (window.location.hash === '#result') {
+        try {
+            const raw = localStorage.getItem('moneyfit_last_result');
+            if (raw) {
+                const saved = JSON.parse(raw);
+                if (saved?.answers) AppState.answers = saved.answers;
+                if (saved?.investorType) {
+                    AppState.analysis.investorType = saved.investorType;
+                    AppState.analysis.totalScore = saved.totalScore || 0;
+                    AppState.analysis.portfolio = getPortfolios(saved.investorType);
+                    AppState.analysis.mbti = calcMbtiAxes(AppState.answers);
+                    renderResult(saved.investorType, AppState.analysis.totalScore);
+                    showStep('result');
+                }
+            }
+        } catch (_) {}
+    }
 
     setTimeout(() => {
         const kc = document.getElementById('methodKakao');

@@ -116,6 +116,49 @@ async function handleApiReport(req, res) {
   }
 }
 
+async function readJsonBody(req) {
+  return await new Promise((resolve, reject) => {
+    let data = '';
+    req.on('data', chunk => data += chunk);
+    req.on('end', () => {
+      try { resolve(data ? JSON.parse(data) : {}); }
+      catch (e) { reject(e); }
+    });
+    req.on('error', reject);
+  });
+}
+
+async function handleApiTossBillingIssue(req, res) {
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204, corsHeaders);
+    res.end();
+    return;
+  }
+  if (req.method !== 'POST') {
+    res.writeHead(405, { ...corsHeaders, 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'Method not allowed' }));
+    return;
+  }
+
+  try {
+    const body = await readJsonBody(req);
+    const { onRequestPost } = await import('./functions/api/toss/billing/issue.js');
+
+    const context = {
+      request: { json: async () => body },
+      env: { TOSS_SECRET_KEY: process.env.TOSS_SECRET_KEY },
+    };
+
+    const response = await onRequestPost(context);
+    const responseBody = await response.text();
+    res.writeHead(response.status, { ...corsHeaders, 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(responseBody);
+  } catch (err) {
+    res.writeHead(500, { ...corsHeaders, 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(JSON.stringify({ error: err.message }));
+  }
+}
+
 // 정적 파일 서빙
 function handleStatic(req, res) {
   let filePath = path.join(__dirname, req.url === '/' ? 'index.html' : req.url);
@@ -148,6 +191,10 @@ const server = http.createServer((req, res) => {
     handleApiReport(req, res);
     return;
   }
+  if (url.pathname === '/api/toss/billing/issue') {
+    handleApiTossBillingIssue(req, res);
+    return;
+  }
 
   // 정적 파일
   handleStatic(req, res);
@@ -161,6 +208,8 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log('  ╚══════════════════════════════════════╝');
   console.log('');
   console.log('  정적 파일 + /api/report 엔드포인트 활성');
+  console.log('  /api/toss/billing/issue 엔드포인트 활성');
   console.log('  OPENAI_API_KEY:', process.env.OPENAI_API_KEY ? '✅ 설정됨' : '❌ 미설정');
+  console.log('  TOSS_SECRET_KEY:', process.env.TOSS_SECRET_KEY ? '✅ 설정됨' : '❌ 미설정');
   console.log('');
 });
