@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="canonical" href="https://moneyfit.vip/pricing/" />
+  <title>MoneyFit 구독 - 프로</title>
+  <meta name="description" content="프로 월 4,900원. 매일 종목 알림과 주간 리포트를 받아보세요." />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    :root{
+      --primary:#EA580C;
+      --primary-dark:#C2410C;
+      --primary-light:#FB923C;
+      --text-1:#2D3436;
+    }
+    .pricing-page-hero{margin-top:8px;margin-bottom:14px;text-align:center}
+    .pricing-page-hero h1{font-size:26px;font-weight:900;letter-spacing:-0.3px}
+    .pricing-page-hero p{margin-top:8px;color:var(--text-2);font-weight:600}
+    .social-proof{display:flex;justify-content:center;gap:8px;align-items:center;margin-top:12px}
+    .social-proof .sp-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(234,88,12,.10);border:1px solid rgba(234,88,12,.18);font-weight:800;color:var(--text-1);font-size:13px}
+    .pricing-columns{display:grid;gap:12px}
+    @media (min-width: 900px){ .container{max-width:980px} .pricing-columns{grid-template-columns: 1fr 1.08fr 1fr; align-items: stretch;} }
+
+    .pricing-card{background:var(--bg-1);border-radius:var(--radius);padding:26px 22px;box-shadow:var(--shadow-md);border:2px solid var(--border);position:relative}
+    .pricing-card h3{font-size:18px;font-weight:900;margin-bottom:8px}
+    .pricing-card .desc{color:var(--text-2);font-size:13px;font-weight:600;line-height:1.55;margin-bottom:14px}
+    .pricing-card .price{font-size:30px;font-weight:950;color:var(--primary);margin-bottom:6px}
+    .pricing-card .subprice{font-size:12px;font-weight:900;color:var(--text-2);margin-bottom:14px}
+    .pricing-card ul{list-style:none;display:flex;flex-direction:column;gap:8px;margin:0 0 16px;padding:0}
+    .pricing-card li{display:flex;gap:8px;align-items:flex-start;background:var(--bg-2);padding:10px 12px;border-radius:var(--radius-sm);font-size:13px;font-weight:700;color:var(--text-2)}
+    .pricing-card li::before{content:"✓";width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:rgba(234,88,12,.14);color:var(--primary);font-weight:950;font-size:12px;flex-shrink:0;margin-top:1px}
+
+    .pricing-card.pro{transform: translateY(-4px);border-color: rgba(234,88,12,.55);box-shadow:0 12px 28px rgba(45,52,54,.16)}
+    .pricing-badge{position:absolute;top:-10px;left:18px;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:950;color:white;background:linear-gradient(135deg,var(--primary),var(--primary-dark));box-shadow:var(--shadow-sm)}
+    .urgency{margin-top:10px;padding:10px 12px;border-radius:var(--radius-sm);border:1px dashed rgba(234,88,12,.45);background:rgba(234,88,12,.06);font-size:12px;font-weight:900;color:var(--text-1)}
+
+    .toggle{display:flex;gap:8px;justify-content:center;margin:10px 0 14px}
+    .toggle button{padding:8px 12px;border-radius:999px;font-size:12px;font-weight:950;background:var(--bg-3);color:var(--text-2);border:2px solid transparent}
+    .toggle button.active{background:rgba(234,88,12,.12);color:var(--primary);border-color:rgba(234,88,12,.20)}
+
+    .disabled{opacity:.55;filter:grayscale(.25)}
+    .soon-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:var(--radius);background:rgba(255,255,255,.72);backdrop-filter: blur(6px);font-weight:950;color:var(--text-1);text-align:center;padding:18px}
+
+    .widget-wrap{margin-top:14px}
+    .widget-card{background:var(--bg-1);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow-sm);border:1px solid var(--border)}
+    .widget-title{font-weight:950;font-size:16px;margin-bottom:10px}
+    .field{display:flex;gap:10px;align-items:center;margin:10px 0}
+    .field input{flex:1;padding:14px;border:2px solid var(--border);border-radius:var(--radius-sm);font-size:15px}
+    .field input:focus{outline:none;border-color: rgba(234,88,12,.55)}
+    .note{font-size:12px;color:var(--text-3);font-weight:600;margin-top:10px;line-height:1.45}
+    .btn-orange{width:100%;padding:14px 18px;border-radius:var(--radius);background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;font-size:15px;font-weight:950;display:flex;justify-content:center;align-items:center;gap:8px}
+    .btn-orange:disabled{opacity:.5;cursor:not-allowed}
+  </style>
+
+  <!-- Toss Payments Payment Widget (v2 standard) -->
+  <script src="https://js.tosspayments.com/v2/standard"></script>
+  <script>
+    window.MONEYFIT_TOSS_CLIENT_KEY = "test_gck_5OWRapdA8dz2ROmYMqkBVo1zEqZK";
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="pricing-page-hero">
+      <h1>구독으로 “내일 아침 알림”까지 받으세요</h1>
+      <p>결과까지 본 다음, 매일 아침 루틴을 만들어드립니다.</p>
+      <div class="social-proof">
+        <span class="sp-badge"><i class="fas fa-user-check"></i> <span id="socialProofCount">10,847</span>명이 이미 테스트했습니다</span>
+      </div>
+    </div>
+
+    <div class="pricing-columns">
+      <div class="pricing-card">
+        <h3>무료</h3>
+        <div class="desc">성향 테스트 + 결과 + ETF 3개 추천</div>
+        <div class="price">₩0</div>
+        <div class="subprice">부담 없이 먼저 해보세요</div>
+        <ul>
+          <li>성향 테스트</li>
+          <li>결과 확인</li>
+          <li>ETF 3개 추천</li>
+        </ul>
+        <a class="btn-orange" href="/index.html" style="text-decoration:none">시작하기 <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="pricing-card pro" id="proCard">
+        <div class="pricing-badge">가장 인기🔥</div>
+        <h3>프로</h3>
+        <div class="desc">무료 기능 + 매일 종목 알림 + 주간 리포트</div>
+        <div class="price" id="proPriceLabel">월 ₩4,900</div>
+        <div class="subprice" id="proSubLabel">하루 163원 ☕</div>
+        <div class="toggle">
+          <button class="active" id="planMonthlyBtn" onclick="selectPlan('monthly')">월 ₩4,900</button>
+          <button id="planYearlyBtn" onclick="selectPlan('yearly')">연 ₩39,900 (32% 할인)</button>
+        </div>
+        <ul>
+          <li>성향 테스트</li>
+          <li>결과 확인</li>
+          <li>ETF 3개 추천</li>
+          <li>매일 종목 알림</li>
+          <li>주간 리포트</li>
+        </ul>
+        <div class="urgency">런칭 특가 — 첫 500명 한정</div>
+        <button class="btn-orange" id="openWidgetBtn" onclick="openWidget()">프로 결제하기 <i class="fas fa-lock"></i></button>
+
+        <div class="widget-wrap hidden" id="widgetWrap">
+          <div class="widget-card" style="margin-top:12px">
+            <div class="widget-title">결제 수단 선택</div>
+
+            <div class="field">
+              <input id="customerEmail" type="email" placeholder="이메일 (영수증/알림용)" autocomplete="email" />
+            </div>
+
+            <div id="payment-method"></div>
+            <div style="height:10px"></div>
+            <div id="agreement"></div>
+
+            <button class="btn-orange" id="payBtn" onclick="requestPay()">결제 진행 <i class="fas fa-arrow-right"></i></button>
+            <div class="note">
+              결제 성공 시 <strong>/payment/success</strong>로 이동합니다.<br/>
+              결제 실패 시 <strong>/payment/fail</strong>로 이동합니다.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pricing-card disabled">
+        <h3>프리미엄</h3>
+        <div class="desc">프로 기능 + AI 포트폴리오 진단 + 실시간 신호 + 카카오 VIP방</div>
+        <div class="price">월 ₩14,900</div>
+        <div class="subprice">곧 출시</div>
+        <ul>
+          <li>AI 포트폴리오 진단</li>
+          <li>실시간 매매 신호</li>
+          <li>카카오 VIP방</li>
+        </ul>
+        <div class="soon-overlay">곧 출시됩니다.<br/>지금은 프로만 결제할 수 있습니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/common.js"></script>
+  <script>
+    // Simple social-proof counter (static + slight variance)
+    (function(){
+      const base = 10847;
+      const drift = Math.floor((Date.now() / 1000 / 60) % 37);
+      document.getElementById('socialProofCount').textContent = (base + drift).toLocaleString('ko-KR');
+    })();
+
+    let selectedPlan = 'monthly';
+    let widgets = null;
+
+    function setActive(btnId){
+      document.getElementById('planMonthlyBtn').classList.toggle('active', btnId === 'planMonthlyBtn');
+      document.getElementById('planYearlyBtn').classList.toggle('active', btnId === 'planYearlyBtn');
+    }
+
+    function selectPlan(plan){
+      selectedPlan = plan;
+      localStorage.setItem('moneyfit_selected_plan', plan);
+      if (plan === 'yearly'){
+        setActive('planYearlyBtn');
+        document.getElementById('proPriceLabel').textContent = '연 ₩39,900';
+        document.getElementById('proSubLabel').textContent = '월 ₩3,325 (32% 할인)';
+      } else {
+        setActive('planMonthlyBtn');
+        document.getElementById('proPriceLabel').textContent = '월 ₩4,900';
+        document.getElementById('proSubLabel').textContent = '하루 163원 ☕';
+      }
+      if (widgets && widgets.setAmount){
+        widgets.setAmount({ currency: 'KRW', value: plan === 'yearly' ? 39900 : 4900 });
+      }
+    }
+
+    function getCustomerKey(){
+      const k = 'moneyfit_customer_key';
+      let v = localStorage.getItem(k);
+      if (!v){
+        v = 'moneyfit_' + Math.random().toString(16).slice(2) + Date.now();
+        localStorage.setItem(k, v);
+      }
+      return v;
+    }
+
+    async function openWidget(){
+      const wrap = document.getElementById('widgetWrap');
+      wrap.classList.remove('hidden');
+      document.getElementById('openWidgetBtn').disabled = true;
+
+      const clientKey = window.MONEYFIT_TOSS_CLIENT_KEY;
+      const tossPayments = TossPayments(clientKey);
+      widgets = tossPayments.widgets({ customerKey: getCustomerKey() });
+
+      await widgets.setAmount({ currency: 'KRW', value: selectedPlan === 'yearly' ? 39900 : 4900 });
+      await widgets.renderPaymentMethods({ selector: '#payment-method' });
+      await widgets.renderAgreement({ selector: '#agreement' });
+
+      // Prefill email if exists (from main app subscription input)
+      const savedEmail = localStorage.getItem('moneyfit_email') || '';
+      const emailInput = document.getElementById('customerEmail');
+      if (savedEmail && !emailInput.value) emailInput.value = savedEmail;
+
+      wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    async function requestPay(){
+      if (!widgets) return;
+      const email = document.getElementById('customerEmail').value.trim();
+      if (!email){
+        alert('이메일을 입력해 주세요.');
+        return;
+      }
+      localStorage.setItem('moneyfit_email', email);
+
+      const origin = window.location.origin;
+      await widgets.requestPayment({
+        orderId: "moneyfit_pro_" + Date.now(),
+        orderName: "MoneyFit 프로 월구독",
+        customerEmail: email,
+        successUrl: origin + "/payment/success/",
+        failUrl: origin + "/payment/fail/"
+      });
+    }
+
+    // restore selected plan
+    (function(){
+      const saved = localStorage.getItem('moneyfit_selected_plan');
+      if (saved === 'yearly') selectPlan('yearly');
+    })();
+  </script>
+</body>
+</html>
+

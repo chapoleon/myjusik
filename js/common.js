@@ -18,6 +18,7 @@ function renderNav() {
       </button>
       <ul class="nav-links" id="navLinks">
         <li><a href="${prefix}index.html" data-i18n="nav_analysis">${typeof t === 'function' ? t('nav_analysis') : 'Investment Profile'}</a></li>
+        <li><a href="${prefix}pricing/" data-i18n="nav_pricing">${typeof t === 'function' ? t('nav_pricing') : 'Pro'}</a></li>
         <li><a href="${prefix}articles/beginner-guide.html" data-i18n="nav_guide">${typeof t === 'function' ? t('nav_guide') : 'Investment Guide'}</a></li>
         <li><a href="${prefix}articles/etf-101.html" data-i18n="nav_etf">${typeof t === 'function' ? t('nav_etf') : 'ETF 101'}</a></li>
         <li><a href="${prefix}articles/dividend-investing.html" data-i18n="nav_dividend">${typeof t === 'function' ? t('nav_dividend') : 'Dividend Investing'}</a></li>
