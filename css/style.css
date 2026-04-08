@@ -1,14 +1,14 @@
 /* MoneyFit - 깔끔한 모바일 퍼스트 디자인 */
 
 :root {
-    --primary: #0066FF;
-    --primary-dark: #0052CC;
-    --primary-light: #3385FF;
+    --primary: #EA580C;
+    --primary-dark: #C2410C;
+    --primary-light: #FB923C;
     --success: #00C896;
     --success-light: #E6FFF9;
     --danger: #FF6B6B;
     --warning: #FFA94D;
-    --text-1: #191F28;
+    --text-1: #2D3436;
     --text-2: #4E5968;
     --text-3: #8B95A1;
     --bg-1: #FFFFFF;

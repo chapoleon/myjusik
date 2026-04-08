@@ -265,8 +265,8 @@
                             <div class="pricing-fineprint" data-i18n="pricing_trial_fineprint">7일 후 자동 결제(₩4,900). 언제든 취소 가능.</div>
                         </div>
 
-                        <!-- Premium -->
-                        <div class="premium-card pricing-card pricing-premium">
+                        <!-- Premium (coming soon) -->
+                        <div class="premium-card pricing-card pricing-premium disabled" style="opacity:.6; position:relative;">
                             <div class="premium-badge" data-i18n="pricing_premium_badge">프리미엄</div>
                             <div class="premium-icon">👑</div>
                             <h4 class="premium-name" data-i18n="pricing_premium_name">프리미엄</h4>
@@ -282,9 +282,15 @@
                                 <li data-i18n="pricing_item_realtime">실시간 매매 신호</li>
                                 <li data-i18n="pricing_item_vip">카카오 VIP방</li>
                             </ul>
-                            <button class="btn-premium" onclick="applyPremium()">
+                            <button class="btn-premium" disabled style="opacity:.6; cursor:not-allowed;">
                                 <span data-i18n="pricing_btn_premium">신청하기</span> <i class="fas fa-arrow-right"></i>
                             </button>
+                            <div class="soon-overlay" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; border-radius:16px; background:rgba(255,255,255,.72); backdrop-filter: blur(6px); font-weight:900; color:var(--text-1); text-align:center; padding:18px;">
+                                <div>
+                                    <div style="font-size:16px; margin-bottom:6px;" data-i18n="premium_coming_soon">곧 출시</div>
+                                    <div style="font-size:12px; color:var(--text-2); font-weight:700;">지금은 프로만 결제할 수 있습니다.</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
