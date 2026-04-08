@@ -76,7 +76,7 @@ function renderFooter() {
       </div>
       <div class="footer-bottom-bar">
         <div class="footer-disclaimer" data-i18n="footer_disclaimer">${_t('footer_disclaimer')}</div>
-        <p class="footer-copy">&copy; 2024 MoneyFit (andwhatbuy.com). All rights reserved.</p>
+        <p class="footer-copy">&copy; 2024 MoneyFit (moneyfit.vip). All rights reserved.</p>
       </div>
     </div>
   `;

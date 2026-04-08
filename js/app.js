@@ -279,7 +279,7 @@ function renderResult(type, pct) {
                     </div>
                 `).join('')}
             </div>
-            <div class="mbti-url">moneyfit.andwhatbuy.com</div>
+            <div class="mbti-url">moneyfit.vip</div>
         </div>
     `;
 
