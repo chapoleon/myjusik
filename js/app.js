@@ -407,6 +407,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setLang(getLang());
     showStep('splash');
 
+    // Pricing launch counter (if present on this page)
+    setLaunchRemaining(getLaunchRemaining());
+
     setTimeout(() => {
         const kc = document.getElementById('methodKakao');
         const ec = document.getElementById('methodEmail');
@@ -588,4 +591,54 @@ function showToast(msg) {
     toast.textContent = msg;
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 2500);
+}
+
+// ===== Pricing (launch) =====
+const LAUNCH_SPOTS_KEY = 'moneyfit_launch_spots_remaining';
+const LAUNCH_SPOTS_DEFAULT = 500;
+
+function getLaunchRemaining() {
+    const raw = localStorage.getItem(LAUNCH_SPOTS_KEY);
+    const n = raw == null ? LAUNCH_SPOTS_DEFAULT : Number(raw);
+    if (!Number.isFinite(n)) return LAUNCH_SPOTS_DEFAULT;
+    return Math.max(0, Math.min(LAUNCH_SPOTS_DEFAULT, Math.floor(n)));
+}
+
+function setLaunchRemaining(n) {
+    const next = Math.max(0, Math.min(LAUNCH_SPOTS_DEFAULT, Math.floor(n)));
+    localStorage.setItem(LAUNCH_SPOTS_KEY, String(next));
+    const el = document.getElementById('launchRemaining');
+    if (el) el.textContent = String(next);
+}
+
+function maybeConsumeLaunchSpot() {
+    const remaining = getLaunchRemaining();
+    if (remaining > 0) setLaunchRemaining(remaining - 1);
+}
+
+let selectedProPlan = 'monthly';
+
+function selectProPlan(plan, el) {
+    selectedProPlan = plan;
+    document.querySelectorAll('.pricing-toggle-btn').forEach(b => b.classList.remove('active'));
+    if (el) el.classList.add('active');
+    const priceEl = document.querySelector('.pricing-pro .premium-price [data-i18n="pricing_pro_price"]');
+    const frameEl = document.querySelector('.pricing-pro .pricing-subprice');
+    if (priceEl) {
+        priceEl.textContent = plan === 'yearly' ? t('pricing_pro_yearly_price') : t('pricing_pro_monthly_price');
+    }
+    if (frameEl) {
+        frameEl.textContent = plan === 'yearly' ? t('pricing_pro_yearly_frame') : t('pricing_pro_frame');
+    }
+}
+
+function startProTrial() {
+    maybeConsumeLaunchSpot();
+    const msg = selectedProPlan === 'yearly' ? t('pricing_toast_pro_yearly') : t('pricing_toast_pro_trial');
+    showToast(msg);
+}
+
+function applyPremium() {
+    maybeConsumeLaunchSpot();
+    showToast(t('pricing_toast_premium'));
 }

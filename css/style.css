@@ -440,6 +440,67 @@ button { cursor: pointer; border: none; outline: none; font-family: inherit; tra
 .premium-section-title { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
 .premium-section-desc { font-size: 14px; color: var(--text-2); margin-bottom: 20px; }
 
+/* ===== Pricing ===== */
+.pricing-launch {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 12px 14px; border-radius: var(--radius);
+    background: rgba(255, 107, 107, 0.12); border: 1px solid rgba(255, 107, 107, 0.25);
+    margin-bottom: 14px; text-align: left;
+}
+.pricing-launch-badge { font-size: 13px; font-weight: 800; color: var(--text-1); line-height: 1.35; }
+.pricing-launch-remaining { font-size: 12px; color: var(--text-2); white-space: nowrap; }
+.pricing-launch-remaining strong { font-size: 16px; color: var(--danger); margin-left: 6px; }
+
+.pricing-grid { display: grid; gap: 12px; }
+.pricing-card { text-align: center; }
+.pricing-subprice { display: inline-block; margin-left: 8px; font-size: 12px; font-weight: 800; color: var(--text-2); }
+
+.pricing-list {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 8px;
+    margin: 0 0 16px; padding: 0;
+    text-align: left;
+}
+.pricing-list li {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 12px;
+    background: var(--bg-2);
+    border-radius: var(--radius-sm);
+    font-size: 13px; color: var(--text-2); font-weight: 600;
+}
+.pricing-list li::before {
+    content: "✓";
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: rgba(0, 102, 255, 0.12);
+    color: var(--primary);
+    font-size: 12px; font-weight: 900;
+    flex-shrink: 0;
+}
+
+.pricing-toggle {
+    display: flex; gap: 8px; justify-content: center;
+    margin: 10px 0 14px;
+}
+.pricing-toggle-btn {
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 12px; font-weight: 800;
+    background: var(--bg-3); color: var(--text-2);
+    border: 2px solid transparent;
+}
+.pricing-toggle-btn.active {
+    background: rgba(0, 102, 255, 0.12);
+    color: var(--primary);
+    border-color: rgba(0, 102, 255, 0.20);
+}
+.pricing-fineprint {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--text-3);
+    line-height: 1.4;
+}
+
 .premium-card {
     background: var(--bg-1); border-radius: var(--radius); padding: 28px 24px;
     margin-bottom: 12px; box-shadow: var(--shadow-md);

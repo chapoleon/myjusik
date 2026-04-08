@@ -204,31 +204,81 @@
                     </div>
                 </div>
 
-                <!-- Premium Services -->
-                <div class="premium-section">
-                    <h3 class="premium-section-title" data-i18n="premium_section_title">Premium Services</h3>
-                    <p class="premium-section-desc" data-i18n="premium_section_desc">Take your investment to the next level</p>
+                <!-- Pricing -->
+                <div class="premium-section" id="pricing">
+                    <h3 class="premium-section-title" data-i18n="pricing_title">가격</h3>
+                    <p class="premium-section-desc" data-i18n="pricing_desc">프로는 7일 무료 체험 후 월 4,900원입니다.</p>
 
-                    <div class="premium-card">
-                        <div class="premium-badge" data-i18n="premium_deep_report_badge">Best Seller</div>
-                        <div class="premium-icon">🤖</div>
-                        <h4 class="premium-name" data-i18n="premium_deep_report_title">Deep AI Report</h4>
-                        <p class="premium-desc" data-i18n="premium_deep_report_desc">30-page professional investment strategy<br>Custom portfolio + Action plan + Risk analysis</p>
-                        <div class="premium-price" data-i18n="premium_deep_report_price">$9.99</div>
-                        <button class="btn-premium" onclick="buyDeepReport()">
-                            <span data-i18n="premium_btn_buy">Get Now</span> <i class="fas fa-arrow-right"></i>
-                        </button>
+                    <div class="pricing-launch">
+                        <div class="pricing-launch-badge" data-i18n="pricing_launch_badge">런칭 멤버 500명 한정 — 평생 ₩4,900 고정</div>
+                        <div class="pricing-launch-remaining">
+                            <span data-i18n="pricing_launch_remaining_label">남은 자리</span>
+                            <strong id="launchRemaining">500</strong>
+                        </div>
                     </div>
 
-                    <div class="premium-card premium-pro">
-                        <div class="premium-badge pro" data-i18n="premium_rebalancing_badge">Pro</div>
-                        <div class="premium-icon">📊</div>
-                        <h4 class="premium-name" data-i18n="premium_rebalancing_title">Portfolio Rebalancing</h4>
-                        <p class="premium-desc" data-i18n="premium_rebalancing_desc">1:1 AI portfolio optimization<br>Monthly rebalancing alerts + Performance tracking</p>
-                        <div class="premium-price" data-i18n="premium_rebalancing_price">$19.00</div>
-                        <button class="btn-premium" onclick="buyRebalancing()">
-                            <span data-i18n="premium_btn_buy">Get Now</span> <i class="fas fa-arrow-right"></i>
-                        </button>
+                    <div class="pricing-grid">
+                        <!-- Free -->
+                        <div class="premium-card pricing-card pricing-free">
+                            <div class="premium-icon">🆓</div>
+                            <h4 class="premium-name" data-i18n="pricing_free_name">무료</h4>
+                            <p class="premium-desc" data-i18n="pricing_free_desc">성향 테스트 + 결과 + ETF 3개 추천</p>
+                            <div class="premium-price" data-i18n="pricing_free_price">₩0</div>
+                            <ul class="pricing-list">
+                                <li data-i18n="pricing_item_test">성향 테스트</li>
+                                <li data-i18n="pricing_item_result">결과 확인</li>
+                                <li data-i18n="pricing_item_etf">ETF 3개 추천</li>
+                            </ul>
+                            <button class="btn-premium" onclick="restartAnalysis()">
+                                <span data-i18n="pricing_btn_free">시작하기</span> <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+
+                        <!-- Pro -->
+                        <div class="premium-card premium-pro pricing-card pricing-pro">
+                            <div class="premium-badge pro" data-i18n="pricing_popular_badge">가장 인기🔥</div>
+                            <div class="premium-icon">⭐</div>
+                            <h4 class="premium-name" data-i18n="pricing_pro_name">프로</h4>
+                            <p class="premium-desc" data-i18n="pricing_pro_desc">매일 종목 알림 + 주간 리포트</p>
+                            <div class="premium-price"><span data-i18n="pricing_pro_price">월 ₩4,900</span> <span class="pricing-subprice" data-i18n="pricing_pro_frame">하루 163원 ☕</span></div>
+                            <div class="pricing-toggle">
+                                <button class="pricing-toggle-btn active" id="proMonthlyBtn" onclick="selectProPlan('monthly', this)" data-i18n="pricing_monthly">월간</button>
+                                <button class="pricing-toggle-btn" id="proYearlyBtn" onclick="selectProPlan('yearly', this)" data-i18n="pricing_yearly">연간 (₩39,900)</button>
+                            </div>
+                            <ul class="pricing-list">
+                                <li data-i18n="pricing_item_test">성향 테스트</li>
+                                <li data-i18n="pricing_item_result">결과 확인</li>
+                                <li data-i18n="pricing_item_etf">ETF 3개 추천</li>
+                                <li data-i18n="pricing_item_daily">매일 종목 알림</li>
+                                <li data-i18n="pricing_item_weekly">주간 리포트</li>
+                            </ul>
+                            <button class="btn-premium" onclick="startProTrial()">
+                                <span data-i18n="pricing_btn_pro_trial">7일 무료 체험 시작</span> <i class="fas fa-arrow-right"></i>
+                            </button>
+                            <div class="pricing-fineprint" data-i18n="pricing_trial_fineprint">7일 후 자동 결제(₩4,900). 언제든 취소 가능.</div>
+                        </div>
+
+                        <!-- Premium -->
+                        <div class="premium-card pricing-card pricing-premium">
+                            <div class="premium-badge" data-i18n="pricing_premium_badge">프리미엄</div>
+                            <div class="premium-icon">👑</div>
+                            <h4 class="premium-name" data-i18n="pricing_premium_name">프리미엄</h4>
+                            <p class="premium-desc" data-i18n="pricing_premium_desc">AI 포트폴리오 진단 + 실시간 신호 + VIP방</p>
+                            <div class="premium-price" data-i18n="pricing_premium_price">월 ₩14,900</div>
+                            <ul class="pricing-list">
+                                <li data-i18n="pricing_item_test">성향 테스트</li>
+                                <li data-i18n="pricing_item_result">결과 확인</li>
+                                <li data-i18n="pricing_item_etf">ETF 3개 추천</li>
+                                <li data-i18n="pricing_item_daily">매일 종목 알림</li>
+                                <li data-i18n="pricing_item_weekly">주간 리포트</li>
+                                <li data-i18n="pricing_item_ai_diagnosis">AI 포트폴리오 진단</li>
+                                <li data-i18n="pricing_item_realtime">실시간 매매 신호</li>
+                                <li data-i18n="pricing_item_vip">카카오 VIP방</li>
+                            </ul>
+                            <button class="btn-premium" onclick="applyPremium()">
+                                <span data-i18n="pricing_btn_premium">신청하기</span> <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
