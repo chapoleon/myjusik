@@ -246,6 +246,13 @@ function showResult() {
     AppState.analysis.totalScore = pct;
     AppState.analysis.mbti = calcMbtiAxes(AppState.answers);
 
+    // Shareable URL (type-based)
+    try {
+        const url = new URL(window.location.href);
+        url.searchParams.set('result', type);
+        history.replaceState({}, '', url.toString());
+    } catch (_) {}
+
     // Persist last result so payment redirects can return to /#result reliably.
     try {
         localStorage.setItem('moneyfit_last_result', JSON.stringify({
@@ -442,6 +449,25 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (_) {}
     }
 
+    // Share entry: /?result={type} shows result view without running test
+    try {
+        const url = new URL(window.location.href);
+        const type = url.searchParams.get('result');
+        if (type && INVESTOR_TYPE_DATA[type]) {
+            // Create neutral answers so the UI renders cleanly
+            AppState.answers = {};
+            for (const q of QUESTIONS) {
+                AppState.answers[q.key] = { value: 'shared', score: 5 };
+            }
+            AppState.analysis.investorType = type;
+            AppState.analysis.totalScore = 50;
+            AppState.analysis.portfolio = getPortfolios(type);
+            AppState.analysis.mbti = calcMbtiAxes(AppState.answers);
+            renderResult(type, 50);
+            showStep('result');
+        }
+    } catch (_) {}
+
     setTimeout(() => {
         const kc = document.getElementById('methodKakao');
         const ec = document.getElementById('methodEmail');
@@ -576,9 +602,20 @@ function getShareText() {
     return `${data.mbtiEmoji} ${t('mbti_share_prefix')} [${mbtiCode}] ${info.name}!\n${t('mbti_share_suffix')}\n`;
 }
 
+function getShareUrl() {
+    try {
+        const type = AppState.analysis.investorType;
+        const u = new URL(window.location.origin + '/');
+        if (type) u.searchParams.set('result', type);
+        return u.toString();
+    } catch (_) {
+        return window.location.origin + '/';
+    }
+}
+
 function shareTwitter() {
     const text = encodeURIComponent(getShareText());
-    const url = encodeURIComponent(window.location.href);
+    const url = encodeURIComponent(getShareUrl());
     window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
 }
 
@@ -611,7 +648,7 @@ function shareKakao() {
 
     const title = info ? `나는 ${data?.mbtiEmoji || '💰'} ${mbtiCode} — ${info.name}!` : 'MoneyFit 투자 성향 테스트';
     const description = info ? info.description : t('meta_description');
-    const url = window.location.origin + '/';
+    const url = getShareUrl();
     const imageUrl = window.location.origin + '/favicon.svg';
 
     // Prefer Kakao.Share (new), fallback to Kakao.Link (legacy)
@@ -753,7 +790,7 @@ function roundRect(ctx, x, y, w, h, r) {
 }
 
 function copyLink() {
-    const text = getShareText() + window.location.href;
+    const text = getShareText() + getShareUrl();
     if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => showToast(t('link_copied')));
     else showToast(t('link_copy_fail'));
 }
