@@ -489,6 +489,16 @@ async function generateReport() {
     const content = document.getElementById('reportContent');
     const error = document.getElementById('reportError');
 
+    const savedEmail = (localStorage.getItem('moneyfit_email') || '').trim();
+    const email = await ensureEmail({
+        title: '보고서를 보내드릴 이메일을 입력하세요',
+        placeholder: '이메일 주소',
+        defaultValue: savedEmail,
+        cta: '보고서 받기',
+        storageKey: 'moneyfit_email',
+    });
+    if (!email) return;
+
     btn.classList.add('hidden');
     error.classList.add('hidden');
     content.classList.add('hidden');
@@ -570,12 +580,102 @@ function shareTwitter() {
     window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
 }
 
-function shareWhatsApp() {
-    const text = encodeURIComponent(getShareText() + '\n' + window.location.href);
-    window.open(`https://wa.me/?text=${text}`, '_blank');
+function shareKakao() { showToast('KakaoTalk sharing available after deployment'); }
+
+async function shareInstagramStory() {
+    // Instagram web does not provide a direct "story share" API.
+    // Best effort: use Web Share with an image file, fallback to download.
+    try {
+        const file = await buildShareCardImageFile();
+        const text = getShareText() + '\n' + 'moneyfit.vip';
+        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({ files: [file], text });
+            return;
+        }
+        downloadFile(file);
+        showToast('이미지를 저장한 뒤 인스타 스토리에 올려주세요.');
+    } catch (e) {
+        console.error(e);
+        showToast('인스타 공유 준비에 실패했습니다.');
+    }
 }
 
-function shareKakao() { showToast('KakaoTalk sharing available after deployment'); }
+function downloadFile(file) {
+    const url = URL.createObjectURL(file);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = file.name || 'moneyfit.png';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+async function buildShareCardImageFile() {
+    const type = AppState.analysis.investorType;
+    const data = type ? INVESTOR_TYPE_DATA[type] : null;
+    const info = type ? t('investor_types.' + type) : null;
+    const mbtiCode = AppState.analysis.mbti?.code || data?.mbtiCode || 'MF';
+
+    const canvas = document.createElement('canvas');
+    canvas.width = 1080;
+    canvas.height = 1080;
+    const ctx = canvas.getContext('2d');
+
+    // Background
+    const grad = ctx.createLinearGradient(0, 0, 1080, 1080);
+    grad.addColorStop(0, '#EA580C');
+    grad.addColorStop(1, '#2D3436');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 1080, 1080);
+
+    // Card
+    const pad = 88;
+    const cardW = 1080 - pad * 2;
+    const cardH = 1080 - pad * 2;
+    const cardX = pad;
+    const cardY = pad;
+    ctx.fillStyle = 'rgba(255,255,255,0.94)';
+    roundRect(ctx, cardX, cardY, cardW, cardH, 48);
+    ctx.fill();
+
+    // Title
+    ctx.fillStyle = '#2D3436';
+    ctx.font = '900 54px Pretendard, sans-serif';
+    ctx.fillText('MoneyFit', cardX + 64, cardY + 120);
+
+    // Main
+    ctx.font = '900 92px Pretendard, sans-serif';
+    ctx.fillText(mbtiCode, cardX + 64, cardY + 260);
+
+    const emoji = data?.mbtiEmoji || '💰';
+    ctx.font = '900 120px Pretendard, sans-serif';
+    ctx.fillText(emoji, cardX + 64, cardY + 410);
+
+    ctx.font = '800 44px Pretendard, sans-serif';
+    ctx.fillStyle = '#4E5968';
+    const name = info?.name || '투자자';
+    ctx.fillText(name, cardX + 64, cardY + 510);
+
+    // Footer URL (requirement)
+    ctx.fillStyle = '#2D3436';
+    ctx.font = '900 36px Pretendard, sans-serif';
+    ctx.fillText('moneyfit.vip', cardX + 64, cardY + cardH - 80);
+
+    const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+    return new File([blob], 'moneyfit-share.png', { type: 'image/png' });
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+    const radius = Math.min(r, w / 2, h / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.arcTo(x + w, y, x + w, y + h, radius);
+    ctx.arcTo(x + w, y + h, x, y + h, radius);
+    ctx.arcTo(x, y + h, x, y, radius);
+    ctx.arcTo(x, y, x + w, y, radius);
+    ctx.closePath();
+}
 
 function copyLink() {
     const text = getShareText() + window.location.href;
@@ -594,11 +694,23 @@ function shareResult() {
 
 // ===== Premium =====
 function buyDeepReport() {
-    showToast(t('premium_coming_soon'));
+    openPrereg('Deep AI 리포트');
 }
 
 function buyRebalancing() {
-    showToast(t('premium_coming_soon'));
+    openPrereg('포트폴리오 리밸런싱');
+}
+
+async function openPrereg(productName) {
+    const email = await ensureEmail({
+        title: `${productName} 사전등록 이메일을 입력하세요`,
+        placeholder: '이메일 주소',
+        defaultValue: (localStorage.getItem('moneyfit_email') || '').trim(),
+        cta: '사전등록',
+        storageKey: 'moneyfit_email',
+    });
+    if (!email) return;
+    showToast('사전등록이 완료되었습니다.');
 }
 
 // ===== Restart =====
@@ -621,6 +733,79 @@ function showToast(msg) {
     toast.textContent = msg;
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 2500);
+}
+
+// ===== Simple Email Modal (Report / Prereg) =====
+function ensureEmail({ title, placeholder, defaultValue = '', cta = '확인', storageKey = 'moneyfit_email' }) {
+    return new Promise((resolve) => {
+        const existing = document.getElementById('mfModalOverlay');
+        if (existing) existing.remove();
+
+        const overlay = document.createElement('div');
+        overlay.id = 'mfModalOverlay';
+        overlay.style.cssText = `
+            position:fixed; inset:0; z-index:2000;
+            background:rgba(0,0,0,0.45);
+            display:flex; align-items:center; justify-content:center;
+            padding:18px;
+        `;
+
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            width:min(520px, 100%);
+            background:#fff;
+            border-radius:16px;
+            box-shadow:0 20px 60px rgba(0,0,0,0.22);
+            border:1px solid rgba(0,0,0,0.06);
+            padding:18px;
+        `;
+
+        modal.innerHTML = `
+            <div style="font-weight:900;font-size:16px;color:var(--text-1);margin-bottom:10px;">${title}</div>
+            <input id="mfEmailInput" type="email" autocomplete="email" placeholder="${placeholder}"
+                   style="width:100%;padding:14px;border:2px solid var(--border);border-radius:12px;font-size:15px;" />
+            <div style="display:flex;gap:10px;margin-top:12px;">
+              <button id="mfCancelBtn" style="flex:1;padding:12px 14px;border-radius:12px;background:var(--bg-3);color:var(--text-1);font-weight:800;">취소</button>
+              <button id="mfOkBtn" style="flex:1;padding:12px 14px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;font-weight:900;">${cta}</button>
+            </div>
+            <div style="margin-top:10px;font-size:12px;color:var(--text-3);font-weight:600;line-height:1.4;">
+              스팸은 보내지 않습니다. 필요할 때만 안내드립니다.
+            </div>
+        `;
+
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+
+        const input = modal.querySelector('#mfEmailInput');
+        input.value = defaultValue;
+        setTimeout(() => input.focus(), 0);
+
+        function close(val) {
+            overlay.remove();
+            resolve(val);
+        }
+
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) close(null);
+        });
+
+        modal.querySelector('#mfCancelBtn').addEventListener('click', () => close(null));
+        modal.querySelector('#mfOkBtn').addEventListener('click', () => {
+            const v = input.value.trim();
+            if (!v || !v.includes('@')) {
+                input.style.borderColor = 'var(--danger)';
+                input.focus();
+                return;
+            }
+            try { localStorage.setItem(storageKey, v); } catch (_) {}
+            close(v);
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') modal.querySelector('#mfOkBtn').click();
+            if (e.key === 'Escape') close(null);
+        });
+    });
 }
 
 // ===== Pricing (launch) =====
@@ -670,5 +855,5 @@ function startProTrial() {
 
 function applyPremium() {
     maybeConsumeLaunchSpot();
-    showToast(t('pricing_toast_premium'));
+    openPrereg('프리미엄');
 }

@@ -430,8 +430,10 @@ button { cursor: pointer; border: none; outline: none; font-family: inherit; tra
     cursor: pointer; transition: all 0.2s; border: none;
 }
 .sns-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.sns-big { padding: 12px 18px; font-size: 14px; font-weight: 800; }
 .sns-twitter { background: #000; color: white; }
-.sns-whatsapp { background: #25D366; color: white; }
+.sns-kakao { background: #FEE500; color: #000; }
+.sns-instagram { background: linear-gradient(135deg, #833AB4, #FD1D1D, #F77737); color: white; }
 .sns-native { background: var(--primary); color: white; }
 .sns-copy { background: var(--bg-3); color: var(--text-1); }
 
@@ -534,7 +536,7 @@ button { cursor: pointer; border: none; outline: none; font-family: inherit; tra
 /* Share buttons 4-grid */
 .share-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .btn-share.twitter { background: #000; color: white; }
-.btn-share.whatsapp { background: #25D366; color: white; }
+.btn-share.instagram { background: linear-gradient(135deg, #833AB4, #FD1D1D, #F77737); color: white; }
 
 @media (max-width: 380px) {
     .stats-grid { grid-template-columns: 1fr; }

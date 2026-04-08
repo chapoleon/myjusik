@@ -62,9 +62,6 @@
                 <div class="lang-selector">
                     <button class="lang-btn active" data-lang="en" onclick="setLang('en')">🇺🇸 EN</button>
                     <button class="lang-btn" data-lang="ko" onclick="setLang('ko')">🇰🇷 한국어</button>
-                    <button class="lang-btn" data-lang="zh" onclick="setLang('zh')">🇨🇳 中文</button>
-                    <button class="lang-btn" data-lang="ja" onclick="setLang('ja')">🇯🇵 日本語</button>
-                    <button class="lang-btn" data-lang="hi" onclick="setLang('hi')">🇮🇳 हिंदी</button>
                 </div>
 
                 <div class="value-prop">
@@ -121,10 +118,10 @@
 
                 <!-- SNS Share (prominent position) -->
                 <div class="sns-share-bar">
+                    <button class="sns-btn sns-kakao sns-big" id="kakaoShareBtnTop" onclick="shareKakao()"><i class="fas fa-comment"></i> <span data-i18n="share_kakao">KakaoTalk</span></button>
+                    <button class="sns-btn sns-instagram" onclick="shareInstagramStory()"><i class="fab fa-instagram"></i> <span data-i18n="share_instagram">Instagram Story</span></button>
+                    <button class="sns-btn sns-copy" onclick="copyLink()"><i class="fas fa-link"></i> <span data-i18n="share_link">Copy Link</span></button>
                     <button class="sns-btn sns-twitter" onclick="shareTwitter()"><i class="fab fa-x-twitter"></i> <span data-i18n="share_twitter">Twitter / X</span></button>
-                    <button class="sns-btn sns-whatsapp" onclick="shareWhatsApp()"><i class="fab fa-whatsapp"></i></button>
-                    <button class="sns-btn sns-native" onclick="shareResult()"><i class="fas fa-share-nodes"></i> <span data-i18n="share_native">Share</span></button>
-                    <button class="sns-btn sns-copy" onclick="copyLink()"><i class="fas fa-link"></i></button>
                 </div>
 
                 <div class="card investor-type-card">
@@ -299,17 +296,17 @@
                 <div class="card share-card">
                     <h3 class="card-title"><i class="fas fa-share-alt"></i> <span data-i18n="share_title">Share with Friends</span></h3>
                     <div class="share-buttons">
-                        <button class="btn-share twitter" onclick="shareTwitter()">
-                            <i class="fab fa-x-twitter"></i><span data-i18n="share_twitter">Twitter / X</span>
-                        </button>
-                        <button class="btn-share whatsapp" onclick="shareWhatsApp()">
-                            <i class="fab fa-whatsapp"></i><span>WhatsApp</span>
-                        </button>
                         <button class="btn-share kakao" id="kakaoShareBtn" onclick="shareKakao()">
                             <i class="fas fa-comment"></i><span data-i18n="share_kakao">KakaoTalk</span>
                         </button>
+                        <button class="btn-share instagram" onclick="shareInstagramStory()">
+                            <i class="fab fa-instagram"></i><span data-i18n="share_instagram">Instagram Story</span>
+                        </button>
                         <button class="btn-share link" onclick="copyLink()">
                             <i class="fas fa-link"></i><span data-i18n="share_link">Copy Link</span>
+                        </button>
+                        <button class="btn-share twitter" onclick="shareTwitter()">
+                            <i class="fab fa-x-twitter"></i><span data-i18n="share_twitter">Twitter / X</span>
                         </button>
                     </div>
                 </div>
