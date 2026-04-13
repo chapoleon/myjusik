@@ -35,7 +35,7 @@ export default function SiteFooter() {
                 <Link to="/about">About</Link>
               </li>
               <li>
-                <Link to="/articles/investment-guide">투자 가이드</Link>
+                <Link to="/articles">아티클</Link>
               </li>
             </ul>
           </div>
