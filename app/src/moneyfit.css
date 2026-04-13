@@ -561,8 +561,12 @@ button { cursor: pointer; border: none; outline: none; font-family: inherit; tra
     cursor: pointer; transition: all 0.2s; border: none;
 }
 .sns-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.sns-kakao { background: #FEE500; color: #191919; }
+.sns-instagram {
+    background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af, #515bd4);
+    color: white;
+}
 .sns-twitter { background: #000; color: white; }
-.sns-whatsapp { background: #25D366; color: white; }
 .sns-native { background: var(--primary); color: white; }
 .sns-copy { background: var(--bg-3); color: var(--text-1); }
 
@@ -604,7 +608,8 @@ button { cursor: pointer; border: none; outline: none; font-family: inherit; tra
 /* Share buttons 4-grid */
 .share-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .btn-share.twitter { background: #000; color: white; }
-.btn-share.whatsapp { background: #25D366; color: white; }
+.btn-share.kakao { background: #FEE500; color: #191919; }
+.btn-share.instagram { background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af, #515bd4); color: white; }
 
 @media (max-width: 380px) {
     .stats-grid { grid-template-columns: 1fr; }

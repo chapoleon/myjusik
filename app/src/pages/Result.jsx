@@ -110,10 +110,45 @@ export default function Result() {
     window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank')
   }, [getShareText])
 
-  const shareWhatsApp = useCallback(() => {
-    const text = encodeURIComponent(getShareText() + '\n' + window.location.href)
-    window.open(`https://wa.me/?text=${text}`, '_blank')
-  }, [getShareText])
+  const shareKakao = useCallback(() => {
+    const key = window.MONEYFIT_KAKAO_JAVASCRIPT_KEY || ''
+    const Kakao = window.Kakao
+    if (!key) {
+      showToast('카카오 JavaScript 키가 설정되지 않았습니다.')
+      return
+    }
+    if (!Kakao) {
+      showToast('카카오 SDK가 로드되지 않았습니다.')
+      return
+    }
+    if (!Kakao.isInitialized?.()) {
+      Kakao.init(key)
+    }
+    const title = `${t('page_title')} - ${t('mbti_label')}`
+    const description = (getShareText() || '').trim()
+    const origin = window.location.origin
+    Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title,
+        description,
+        imageUrl: `${origin}/favicon.svg`,
+        link: { mobileWebUrl: origin, webUrl: origin },
+      },
+      buttons: [
+        {
+          title: '결과 보기',
+          link: { mobileWebUrl: origin, webUrl: origin },
+        },
+      ],
+    })
+  }, [getShareText, showToast, t])
+
+  const shareInstagramStory = useCallback(() => {
+    // Web cannot post directly to Instagram Story reliably; copy link for user.
+    copyLink()
+    window.open('https://www.instagram.com/', '_blank')
+  }, [copyLink])
 
   const shareNative = useCallback(() => {
     const text = getShareText()
@@ -367,17 +402,20 @@ export default function Result() {
               <i className="fas fa-share-alt" /> {t('share_title')}
             </div>
             <div className="sns-share-bar">
-              <button type="button" className="sns-btn sns-twitter" onClick={shareTwitter}>
-                <i className="fab fa-twitter" /> {t('share_twitter')}
+              <button type="button" className="sns-btn sns-kakao" onClick={shareKakao}>
+                <i className="fas fa-comment" /> {t('share_kakao')}
               </button>
-              <button type="button" className="sns-btn sns-whatsapp" onClick={shareWhatsApp}>
-                <i className="fab fa-whatsapp" /> {t('share_whatsapp')}
-              </button>
-              <button type="button" className="sns-btn sns-native" onClick={shareNative}>
-                <i className="fas fa-share" /> {t('share_native')}
+              <button type="button" className="sns-btn sns-instagram" onClick={shareInstagramStory}>
+                <i className="fab fa-instagram" /> {t('share_instagram')}
               </button>
               <button type="button" className="sns-btn sns-copy" onClick={copyLink}>
                 <i className="fas fa-link" /> {t('share_link')}
+              </button>
+              <button type="button" className="sns-btn sns-twitter" onClick={shareTwitter}>
+                <i className="fab fa-x-twitter" /> {t('share_twitter')}
+              </button>
+              <button type="button" className="sns-btn sns-native" onClick={shareNative}>
+                <i className="fas fa-share" /> {t('share_native')}
               </button>
             </div>
           </div>
