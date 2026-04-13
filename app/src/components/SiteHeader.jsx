@@ -39,8 +39,8 @@ export default function SiteHeader() {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/articles/investment-guide" className={linkClass} onClick={() => setOpen(false)}>
-              투자 가이드
+            <NavLink to="/articles" className={linkClass} onClick={() => setOpen(false)}>
+              아티클
             </NavLink>
           </li>
           <li>

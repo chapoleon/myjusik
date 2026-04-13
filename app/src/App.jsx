@@ -11,6 +11,9 @@ import PrivacyPage from './pages/PrivacyPage'
 import TermsPage from './pages/TermsPage'
 import ContactPage from './pages/ContactPage'
 import InvestmentGuidePage from './pages/InvestmentGuidePage'
+import ArticlesIndexPage from './pages/ArticlesIndexPage'
+import ArticlePage from './pages/ArticlePage'
+import NotFoundPage from './pages/NotFoundPage'
 
 function ToastHost() {
   const { toast } = useMoneyFit()
@@ -125,6 +128,30 @@ function AppRoutes() {
         element={
           <Shell footer>
             <InvestmentGuidePage />
+          </Shell>
+        }
+      />
+      <Route
+        path="/articles"
+        element={
+          <Shell footer>
+            <ArticlesIndexPage />
+          </Shell>
+        }
+      />
+      <Route
+        path="/articles/:slug"
+        element={
+          <Shell footer>
+            <ArticlePage />
+          </Shell>
+        }
+      />
+      <Route
+        path="*"
+        element={
+          <Shell footer>
+            <NotFoundPage />
           </Shell>
         }
       />

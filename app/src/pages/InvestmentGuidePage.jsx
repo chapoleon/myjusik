@@ -44,6 +44,13 @@ export default function InvestmentGuidePage() {
             판단하시기 바랍니다.
           </p>
         </section>
+
+        <section>
+          <h2>더 읽어보기</h2>
+          <p>
+            기본 개념을 더 깊게 정리한 글은 <Link to="/articles">아티클</Link>에서 확인하실 수 있습니다.
+          </p>
+        </section>
       </div>
     </main>
   )
