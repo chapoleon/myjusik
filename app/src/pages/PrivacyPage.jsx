@@ -9,14 +9,13 @@ export default function PrivacyPage() {
     <main className="page-content">
       <div className="container">
         <h1>개인정보처리방침</h1>
-        <p className="page-updated">최종 수정일: 2026년 3월 24일</p>
+        <p className="page-updated">최종 수정일: 2026년 4월 15일</p>
 
         <section id="section1">
           <h2>1. 총칙</h2>
           <p>
-            주식회사 아이앤디디(이하 &quot;회사&quot;)는 MoneyFit 서비스 이용자의 개인정보를 중요하게 여기며, 「개인정보 보호법」
-            등 관련 법령을 준수합니다. 본 방침은 서비스 이용 과정에서 처리되는 개인정보의 항목, 목적, 보유 기간 등을
-            안내합니다.
+            MoneyFit 서비스 운영자(이하 &quot;운영자&quot;)는 이용자의 개인정보를 중요하게 여기며, 「개인정보 보호법」 등 관련 법령을
+            준수합니다. 본 방침은 서비스 이용 과정에서 처리되는 개인정보의 항목, 목적, 보유 기간 등을 안내합니다.
           </p>
         </section>
 
@@ -38,7 +37,7 @@ export default function PrivacyPage() {
         <section id="adsense">
           <h2>3. 광고 및 제3자 서비스(구글 애드센스 등)</h2>
           <p>
-            회사는 서비스 운영을 위해 Google 등 광고 파트너의 광고를 게재할 수 있습니다. Google은 쿠키를 사용하여 이 사이트에
+            운영자는 서비스 운영을 위해 Google 등 광고 파트너의 광고를 게재할 수 있습니다. Google은 쿠키를 사용하여 이 사이트에
             대한 이용자의 방문 정보를 바탕으로 광고를 게재할 수 있으며,{' '}
             <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer">
               Google 광고 정책
@@ -72,7 +71,7 @@ export default function PrivacyPage() {
         <section>
           <h2>7. 개인정보 보호 책임자</h2>
           <p>
-            문의: <a href="mailto:indd@ondasoop.com">indd@ondasoop.com</a> (주식회사 아이앤디디)
+            문의: <a href="mailto:indd@ondasoop.com">indd@ondasoop.com</a>
           </p>
         </section>
       </div>

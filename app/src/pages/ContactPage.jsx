@@ -20,9 +20,6 @@ export default function ContactPage() {
               <strong>이메일:</strong>{' '}
               <a href="mailto:indd@ondasoop.com">indd@ondasoop.com</a>
             </p>
-            <p>
-              <strong>운영사:</strong> 주식회사 아이앤디디
-            </p>
             <p className="page-updated">개인정보 관련 문의는 &quot;개인정보처리방침&quot;의 책임자 연락처를 이용해 주세요.</p>
           </div>
 

@@ -17,7 +17,7 @@ export default function AboutPage() {
         <section>
           <h2>운영 주체</h2>
           <p>
-            본 서비스는 <strong>주식회사 아이앤디디</strong>가 운영합니다. 문의는{' '}
+            본 서비스는 서비스 운영자가 운영합니다. 문의는{' '}
             <a href="mailto:indd@ondasoop.com">indd@ondasoop.com</a> 으로 연락해 주세요.
           </p>
         </section>

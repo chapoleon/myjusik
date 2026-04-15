@@ -9,7 +9,7 @@ export default function SiteFooter() {
           <div className="footer-col">
             <div className="footer-brand">💰 MoneyFit</div>
             <p className="footer-desc">
-              주식회사 아이앤디디 | <span>indd@ondasoop.com</span>
+              문의: <span>indd@ondasoop.com</span>
             </p>
           </div>
 
