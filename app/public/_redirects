@@ -1,5 +1,14 @@
 /ads.txt /ads.txt 200!
 /robots.txt /robots.txt 200!
 /sitemap.xml /sitemap.xml 200!
+/about /about/index.html 200!
+/contact /contact/index.html 200!
+/privacy-policy /privacy-policy/index.html 200!
+/terms /terms/index.html 200!
+/disclaimer /disclaimer/index.html 200!
+/blog /blog/index.html 200!
+/blog/loss-aversion /blog/loss-aversion/index.html 200!
+/blog/investment-personality-types /blog/investment-personality-types/index.html 200!
+/blog/fomo-investment-mistakes /blog/fomo-investment-mistakes/index.html 200!
 /articles/* /index.html 200!
 /* /index.html 200!

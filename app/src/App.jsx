@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HelmetProvider } from 'react-helmet-async'
 import { MoneyFitProvider, useMoneyFit } from './state/MoneyFitContext'
 import SiteHeader from './components/SiteHeader'
 import SiteFooter from './components/SiteFooter'
@@ -10,9 +11,12 @@ import AboutPage from './pages/AboutPage'
 import PrivacyPage from './pages/PrivacyPage'
 import TermsPage from './pages/TermsPage'
 import ContactPage from './pages/ContactPage'
+import DisclaimerPage from './pages/DisclaimerPage'
 import InvestmentGuidePage from './pages/InvestmentGuidePage'
 import ArticlesIndexPage from './pages/ArticlesIndexPage'
 import ArticlePage from './pages/ArticlePage'
+import BlogIndexPage from './pages/BlogIndexPage'
+import BlogPostPage from './pages/BlogPostPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 function ToastHost() {
@@ -76,10 +80,26 @@ function AppRoutes() {
         }
       />
       <Route
+        path="/privacy-policy"
+        element={
+          <Shell footer>
+            <PrivacyPage />
+          </Shell>
+        }
+      />
+      <Route
         path="/terms"
         element={
           <Shell footer>
             <TermsPage />
+          </Shell>
+        }
+      />
+      <Route
+        path="/disclaimer"
+        element={
+          <Shell footer>
+            <DisclaimerPage />
           </Shell>
         }
       />
@@ -148,6 +168,22 @@ function AppRoutes() {
         }
       />
       <Route
+        path="/blog"
+        element={
+          <Shell footer>
+            <BlogIndexPage />
+          </Shell>
+        }
+      />
+      <Route
+        path="/blog/:slug"
+        element={
+          <Shell footer>
+            <BlogPostPage />
+          </Shell>
+        }
+      />
+      <Route
         path="*"
         element={
           <Shell footer>
@@ -161,10 +197,12 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <MoneyFitProvider>
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
-    </MoneyFitProvider>
+    <HelmetProvider>
+      <MoneyFitProvider>
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </MoneyFitProvider>
+    </HelmetProvider>
   )
 }

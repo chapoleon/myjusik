@@ -651,13 +651,13 @@ button { cursor: pointer; border: none; outline: none; font-family: inherit; tra
 }
 
 .page-content .container {
-    max-width: 800px;
+    max-width: 768px;
     padding: 0 24px;
 }
 
 @media (min-width: 768px) {
     .page-content .container {
-        max-width: 800px;
+        max-width: 768px;
         padding: 0 40px;
     }
 }

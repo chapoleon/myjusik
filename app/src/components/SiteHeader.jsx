@@ -44,12 +44,17 @@ export default function SiteHeader() {
             </NavLink>
           </li>
           <li>
+            <NavLink to="/blog" className={linkClass} onClick={() => setOpen(false)}>
+              블로그
+            </NavLink>
+          </li>
+          <li>
             <NavLink to="/contact" className={linkClass} onClick={() => setOpen(false)}>
               문의
             </NavLink>
           </li>
           <li>
-            <NavLink to="/privacy" className={linkClass} onClick={() => setOpen(false)}>
+            <NavLink to="/privacy-policy" className={linkClass} onClick={() => setOpen(false)}>
               개인정보처리방침
             </NavLink>
           </li>

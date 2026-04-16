@@ -1,15 +1,17 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import Seo from '../components/Seo'
 
 export default function TermsPage() {
-  useEffect(() => {
-    document.title = '이용약관 - MoneyFit'
-  }, [])
-
   return (
     <main className="page-content">
+      <Seo
+        title="이용약관 | 머니핏"
+        description="머니핏 서비스 이용 조건, 회원 의무, 유료 서비스/환불, 저작권, 분쟁 해결 및 투자 정보 면책 사항을 안내합니다."
+        canonicalPath="/terms"
+      />
       <div className="container">
         <h1>이용약관</h1>
-        <p className="page-updated">최종 수정일: 2026년 4월 15일</p>
+        <p className="page-updated">최종 수정일: 2026년 4월 16일</p>
 
         <section>
           <h2>제1조 (목적)</h2>
@@ -29,7 +31,12 @@ export default function TermsPage() {
 
         <section>
           <h2>제3조 (이용자의 의무)</h2>
-          <p>이용자는 관련 법령 및 본 약관을 준수해야 하며, 타인의 권리를 침해하거나 서비스 운영을 방해해서는 안 됩니다.</p>
+          <ul>
+            <li>관련 법령 및 본 약관 준수</li>
+            <li>타인의 권리(저작권, 개인정보 등) 침해 금지</li>
+            <li>서비스 운영 방해 행위 금지(비정상 트래픽, 악성코드 유포 등)</li>
+            <li>본인 정보의 정확한 입력 및 계정(제공되는 경우) 관리 책임</li>
+          </ul>
         </section>
 
         <section>
@@ -43,7 +50,11 @@ export default function TermsPage() {
 
         <section>
           <h2>제5조 (지적재산권)</h2>
-          <p>서비스에 포함된 콘텐츠에 대한 저작권 등 지적재산권은 운영자 또는 정당한 권리자에게 귀속됩니다.</p>
+          <p>
+            서비스에 포함된 콘텐츠(텍스트, 이미지, UI, 로고, 데이터 등)에 대한 저작권 등 지적재산권은 운영자 또는 정당한
+            권리자에게 귀속됩니다. 이용자는 운영자의 사전 동의 없이 콘텐츠를 복제·배포·전송·2차적 저작물 작성 등 상업적으로
+            이용할 수 없습니다.
+          </p>
         </section>
 
         <section>
@@ -70,6 +81,10 @@ export default function TermsPage() {
               철회를 제한할 수 있는 사유가 있는 경우에는 그에 따릅니다.
             </li>
             <li>
+              <strong>결제대행사(PG) 기준:</strong> 결제 처리는 Toss Payments 정책 및 관련 법령을 따르며, 환불 처리에 시간이
+              소요될 수 있습니다.
+            </li>
+            <li>
               <strong>오·중복 결제:</strong> 결제 오류, 중복 결제, 운영자 귀책 또는 시스템 장애로 인한 과오납이 확인되는
               경우, 사실 확인 후 관련 법령 및 결제대행사(PG) 정책에 따라 환불 또는 조정합니다.
             </li>
@@ -86,9 +101,17 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2>제9조 (문의)</h2>
+          <h2>제9조 (분쟁 해결)</h2>
           <p>
-            서비스와 관련한 문의: <a href="mailto:indd@ondasoop.com">indd@ondasoop.com</a>
+            서비스 이용과 관련하여 분쟁이 발생한 경우, 운영자와 이용자는 원만한 해결을 위해 성실히 협의합니다. 협의가 이루어지지
+            않는 경우 관련 법령에 따라 관할 법원에 제소할 수 있습니다.
+          </p>
+        </section>
+
+        <section>
+          <h2>제10조 (문의)</h2>
+          <p>
+            서비스와 관련한 문의: <a href="mailto:contact@moneyfit.vip">contact@moneyfit.vip</a>
           </p>
         </section>
       </div>
