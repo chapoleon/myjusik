@@ -1,11 +1,12 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import Seo from '../components/Seo'
 
 export default function AboutPage() {
   const orgJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: '주식회사 아이앤디디(INDD)',
+    name: 'MoneyFit',
     url: 'https://moneyfit.vip',
     brand: {
       '@type': 'Brand',
@@ -31,31 +32,14 @@ export default function AboutPage() {
         </p>
 
         <section>
-          <h2>운영 주체</h2>
-          <table className="info-table">
-            <tbody>
-              <tr>
-                <th>상호</th>
-                <td>주식회사 아이앤디디(INDD)</td>
-              </tr>
-              <tr>
-                <th>사업자등록번호</th>
-                <td>[수동 입력]</td>
-              </tr>
-              <tr>
-                <th>대표</th>
-                <td>[수동 입력]</td>
-              </tr>
-              <tr>
-                <th>주소</th>
-                <td>[수동 입력]</td>
-              </tr>
-              <tr>
-                <th>저자</th>
-                <td>INDD 편집팀 (금융/투자 심리 전문 콘텐츠)</td>
-              </tr>
-            </tbody>
-          </table>
+          <h2>저자 및 운영 안내</h2>
+          <p>
+            본 사이트의 콘텐츠는 <strong>INDD 편집팀</strong>이 작성·편집합니다. 법정 고지(사업자 정보, 결제수단, 환불/취소
+            정책)는 통합 정책 페이지에서 확인하실 수 있습니다.
+          </p>
+          <p>
+            <Link to="/policies#business-info">통합 정책 페이지로 이동</Link>
+          </p>
         </section>
 
         <section>

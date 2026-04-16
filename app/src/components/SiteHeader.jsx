@@ -53,16 +53,6 @@ export default function SiteHeader() {
               문의
             </NavLink>
           </li>
-          <li>
-            <NavLink to="/privacy-policy" className={linkClass} onClick={() => setOpen(false)}>
-              개인정보처리방침
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/terms" className={linkClass} onClick={() => setOpen(false)}>
-              이용약관
-            </NavLink>
-          </li>
         </ul>
         <div className="nav-actions">
           <button

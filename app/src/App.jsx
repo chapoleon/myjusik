@@ -12,6 +12,7 @@ import PrivacyPage from './pages/PrivacyPage'
 import TermsPage from './pages/TermsPage'
 import ContactPage from './pages/ContactPage'
 import DisclaimerPage from './pages/DisclaimerPage'
+import PoliciesPage from './pages/PoliciesPage'
 import InvestmentGuidePage from './pages/InvestmentGuidePage'
 import ArticlesIndexPage from './pages/ArticlesIndexPage'
 import ArticlePage from './pages/ArticlePage'
@@ -100,6 +101,14 @@ function AppRoutes() {
         element={
           <Shell footer>
             <DisclaimerPage />
+          </Shell>
+        }
+      />
+      <Route
+        path="/policies"
+        element={
+          <Shell footer>
+            <PoliciesPage />
           </Shell>
         }
       />

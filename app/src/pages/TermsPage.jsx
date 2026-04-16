@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import Seo from '../components/Seo'
 
 export default function TermsPage() {
@@ -85,17 +86,8 @@ export default function TermsPage() {
               소요될 수 있습니다.
             </li>
             <li>
-              <strong>오·중복 결제:</strong> 결제 오류, 중복 결제, 운영자 귀책 또는 시스템 장애로 인한 과오납이 확인되는
-              경우, 사실 확인 후 관련 법령 및 결제대행사(PG) 정책에 따라 환불 또는 조정합니다.
-            </li>
-            <li>
-              <strong>구독 해지:</strong> 이용자가 구독을 해지한 경우, 원칙적으로 다음 결제일부터 추가 과금이 이루어지지
-              않습니다. 이미 결제되어 이용 중인 기간에 대한 일할 환불 등은 관련 법령, PG·앱마켓 정책 및 서비스 내 별도
-              안내가 있는 경우에 한합니다.
-            </li>
-            <li>
-              <strong>신청 방법:</strong> 환불·결제 관련 문의는 아래 제9조의 연락처로 요청해 주시며, 주문번호·결제일·이메일 등
-              확인에 필요한 정보를 함께 알려 주시기 바랍니다.
+              <strong>상세 정책:</strong> 환불/취소 기준, 정기결제 해지, 환불 불가 사유, 요청 방법 등 자세한 사항은{' '}
+              <Link to="/policies#refund">통합 정책(/policies#refund)</Link>을 참고해 주세요.
             </li>
           </ul>
         </section>

@@ -102,9 +102,9 @@ export default function PrivacyPage() {
         <section>
           <h2>8. 개인정보 보호책임자</h2>
           <p>
-            성명: [수동 입력]
+            담당 부서: INDD 개인정보 보호팀
             <br />
-            이메일: <a href="mailto:contact@moneyfit.vip">contact@moneyfit.vip</a>
+            이메일: <a href="mailto:privacy@moneyfit.vip">privacy@moneyfit.vip</a>
             <br />
             (개인정보 관련 문의는 가능한 한 상세히 작성해 주시면 신속히 안내드리겠습니다.)
           </p>

@@ -44,9 +44,6 @@ export default function ContactPage() {
                   <strong>이메일:</strong> <a href="mailto:contact@moneyfit.vip">contact@moneyfit.vip</a>
                 </li>
                 <li>
-                  <strong>회사 주소:</strong> [수동 입력]
-                </li>
-                <li>
                   <strong>운영시간:</strong> 평일 09:00~18:00
                 </li>
               </ul>
